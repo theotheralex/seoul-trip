@@ -1080,10 +1080,9 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lb'
    values). Until configured it still works per-device (saved in your own
    browser only, not shared). Setup steps are in the chat. ================== */
 var FIREBASE_CONFIG = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT.firebaseapp.com",
-  databaseURL: "https://PASTE_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "PASTE_PROJECT"
+  databaseURL: "https://seoul-trip-bc874-default-rtdb.firebaseio.com",
+  projectId: "seoul-trip-bc874",
+  authDomain: "seoul-trip-bc874.firebaseapp.com"
 };
 /*COLLAB-START*/
 (function(){
@@ -1096,7 +1095,7 @@ var FIREBASE_CONFIG = {
   function esc(s){return (s+'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
   function start(){
-    if(FIREBASE_CONFIG.apiKey.indexOf('PASTE')<0){
+    if(FIREBASE_CONFIG.databaseURL && FIREBASE_CONFIG.databaseURL.indexOf('PASTE')<0){
       try{
         firebase.initializeApp(FIREBASE_CONFIG);
         REF=firebase.database().ref('seoul-trip');
