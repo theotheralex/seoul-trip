@@ -1,0 +1,9 @@
+.DS_Store
+.claude/
+# obsolete prior attempt (Unsplash pipeline) — superseded by img/
+images/
+download_images.sh
+HANDOFF.md
+# scratch
+_src/
+*.bak
