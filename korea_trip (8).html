@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Korea Trip 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0e0e0e; --paper:#f7f5f0; --card:#fff;
+  --red:#e8400c; --purple:#4a2de8; --teal:#0a7c5c;
+  --muted:#6b6b6b; --border:#e0ddd7;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.6}
+
+/* ── city nav ── */
+.city-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--ink);display:flex;height:48px;width:100%}
+.city-btn{flex:1;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.06em;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.city-btn:hover{color:rgba(255,255,255,.75);background:rgba(255,255,255,.05)}
+.city-btn.active{color:#fff}
+.city-btn.seoul.active{border-bottom-color:var(--red)}
+.city-btn.busan.active{border-bottom-color:var(--teal)}
+  .city-btn.taipei.active{border-bottom-color:#b45309}
+  .taipei-view .day-btn.active{border-bottom-color:#b45309}
+  .hl-amber{border-left:4px solid #b45309}
+  .lbtn.amber{color:#b45309;border-color:#b45309}
+  .lbtn.amber:hover{background:#b45309;color:#fff}
+  .map-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .map-btns .lbtn{margin-top:0}
+  .transport-card{background:var(--ink);border-radius:14px;padding:16px 20px;margin:0 40px 20px;max-width:880px;margin-left:auto;margin-right:auto;display:grid;grid-template-columns:auto 1fr auto;gap:12px 16px;align-items:center}
+  .transport-icon{font-size:24px;grid-row:span 2}
+  .transport-title{font-weight:600;font-size:14px;color:#fff;margin:0}
+  .transport-sub{font-size:12px;color:rgba(255,255,255,.6);margin:0;line-height:1.5;grid-column:2}
+  .transport-schedule{grid-column:3;grid-row:span 2;text-align:right}
+  .transport-time{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;line-height:1}
+  .transport-time-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase}
+  .transport-links{grid-column:2;display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+  .transport-links a{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:3px 8px;text-decoration:none;transition:all .15s}
+  .transport-links a:hover{background:rgba(255,255,255,.15);color:#fff}
+  .transport-seoul .transport-card{background:#1a0a0a;border:1px solid rgba(232,64,12,.3)}
+  .transport-busan .transport-card{background:#001a14;border:1px solid rgba(10,124,92,.3)}
+  .transport-taipei .transport-card{background:#1a1000;border:1px solid rgba(180,83,9,.3)}
+  @media(max-width:600px){
+    .transport-card{grid-template-columns:auto 1fr;margin:0 20px 16px;padding:14px 16px}
+    .transport-schedule{display:none}
+    .transport-sub{grid-column:2}
+    .transport-links{grid-column:2}
+  }
+
+/* ── city views ── */
+.city-view{display:none;padding-top:0}
+.city-view.active{display:block}
+
+/* ── hero ── */
+.hero{position:relative;height:52vh;min-height:300px;max-height:420px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;margin-top:48px}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 60%;filter:brightness(.52);background-color:#1a1a2e}
+.hero-content{position:relative;z-index:2;padding:0 40px 32px;max-width:900px}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,72px);color:#fff;line-height:.92;letter-spacing:.01em;margin-bottom:12px}
+.accent-r{color:var(--red)} .accent-t{color:var(--teal)}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.hero-pill{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.9);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 12px;backdrop-filter:blur(6px);white-space:nowrap}
+
+/* ── day nav ── */
+.cal-wrap{background:var(--paper);padding:16px 40px 0;max-width:960px;margin:0 auto}
+.cal-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.cal-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.day-nav{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:20px}
+.day-nav::-webkit-scrollbar{display:none}
+.day-btn{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;width:90px;min-height:92px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;transition:all .18s;flex-shrink:0;padding:10px 6px 8px;position:relative;overflow:hidden;gap:0}
+.day-btn:hover{border-color:#bbb;box-shadow:0 3px 12px rgba(0,0,0,.1);transform:translateY(-2px)}
+.day-btn.active{border-color:transparent;box-shadow:0 4px 16px rgba(0,0,0,.14)}
+.seoul-view .day-btn.active{background:var(--red)}
+.busan-view .day-btn.active{background:var(--teal)}
+.taipei-view .day-btn.active{background:#b45309}
+.cal-dow{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);line-height:1;margin-bottom:3px}
+.day-btn.active .cal-dow{color:rgba(255,255,255,.72)}
+.cal-num{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1;color:var(--ink);margin-bottom:5px}
+.day-btn.active .cal-num{color:#fff}
+.cal-tag{font-size:9px;font-weight:500;color:var(--muted);line-height:1.35;text-align:center;padding:0 3px;word-break:break-word}
+.day-btn.active .cal-tag{color:rgba(255,255,255,.9)}
+.cal-divider{width:1px;height:36px;background:var(--border);align-self:center;flex-shrink:0;margin-top:19px}
+
+/* ── day sections ── */
+.day-section{display:none}
+.day-section.active{display:block}
+.day-header{padding:44px 40px 0;max-width:960px;margin:0 auto}
+.day-num{display:none}
+.day-title{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--ink);letter-spacing:.02em;margin-bottom:6px}
+.day-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.day-vibe{background:var(--ink);color:rgba(255,255,255,.72);font-size:13px;border-radius:8px;padding:13px 16px;max-width:620px;line-height:1.6;margin-bottom:32px}
+.day-vibe strong{color:#fff}
+
+/* ── transit banner ── */
+.transit-wrap{max-width:960px;margin:0 auto;padding:24px 40px 0}
+.transit{background:var(--teal);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.5}
+.transit strong{color:#fff}
+.transit a{color:#7effd4;margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:11px}
+
+/* ── blocks ── */
+.blocks{max-width:960px;margin:0 auto;padding:0 40px 56px;display:flex;flex-direction:column;gap:14px}
+.block{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .15s}
+.block:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
+.hl-r{border-left:4px solid var(--red)}
+.hl-p{border-left:4px solid var(--purple)}
+.hl-t{border-left:4px solid var(--teal)}
+.bh{display:flex;align-items:flex-start;gap:14px;padding:16px 18px}
+.bimg{width:88px;height:68px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--border)}
+.bmain{flex:1;min-width:0}
+.btime{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.btitle{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:4px}
+.bshort{font-size:12px;color:var(--muted);line-height:1.5}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
+.tf{background:#fff4ee;color:#c03a00} .tg{background:#eeecff;color:#3322b8}
+.tm{background:#fffbe8;color:#7a5800} .tn{background:#fceef6;color:#8c1f5e}
+.ts{background:#eef6ff;color:#0a4f99} .tx{background:#ffeaea;color:#991111}
+.tb{background:#e6f9f5;color:#0a5c48}
+.btoggle{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:0 18px 12px;display:flex;align-items:center;gap:5px}
+.btoggle svg{transition:transform .25s}
+.block.open .btoggle svg{transform:rotate(180deg)}
+.bdetail{display:none;border-top:1px solid var(--border);padding:18px;background:#fafaf8}
+.block.open .bdetail{display:block}
+.bdetail p{font-size:13px;color:#444;line-height:1.7;margin-bottom:10px}
+.bdetail p:last-child{margin-bottom:0}
+.lbtn{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;text-decoration:none;font-family:'JetBrains Mono',monospace;padding:6px 12px;border:1px solid currentColor;border-radius:6px;margin-top:10px;margin-right:6px;transition:background .15s,color .15s}
+.lbtn{color:var(--purple);border-color:var(--purple)}
+.lbtn:hover{background:var(--purple);color:#fff}
+.lbtn.r{color:var(--red);border-color:var(--red)}
+.lbtn.r:hover{background:var(--red);color:#fff}
+.lbtn.t{color:var(--teal);border-color:var(--teal)}
+.lbtn.t:hover{background:var(--teal);color:#fff}
+
+/* ── footer ── */
+.trip-footer{background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:28px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em}
+.trip-footer span{color:rgba(255,255,255,.15);margin:0 8px}
+
+@media(max-width:600px){
+  .city-btn{font-size:14px}
+  .hero-content{padding:0 20px 24px}
+  .day-header{padding:32px 20px 0}
+  .day-num{font-size:60px}
+  .day-title{font-size:30px}
+  .blocks{padding:0 20px 44px}
+  .transit-wrap{padding:20px 20px 0}
+  .bimg{width:70px;height:56px}
+}
+</style>
+</head>
+<body>
+
+
+<!-- ═══════ SEOUL ═══════ -->
+<nav class="city-nav" id="globalCityNav">
+  <button class="city-btn seoul active" onclick="showCity('seoul',this)">&#127472;&#127479; Seoul</button>
+  <button class="city-btn busan" onclick="showCity('busan',this)">&#127754; Busan</button>
+  <button class="city-btn taipei" onclick="showCity('taipei',this)">&#127481;&#127484; Taipei</button>
+</nav>
+<div id="seoul" class="city-view seoul-view active">
+  <div class="hero">
+    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1546874177-9e664107314e?w=1600&q=80')"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">The Crew &middot; Oct 27 &ndash; Nov 1 &middot; 5 nights</p>
+      <h1 class="hero-title">SEOUL<br><span class="accent-r">&#49436;&#50872;</span></h1>
+      <div class="hero-meta">
+        <span class="hero-pill">Hongdae Airbnb</span>
+        <span class="hero-pill">MTG &middot; Anime &middot; K-Food</span>
+        <span class="hero-pill">Esports &middot; Karaoke</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cal-wrap" id="seoulNav">
+    <p class="cal-label">Seoul &middot; Oct 27&ndash;Nov 1</p>
+    <div class="day-nav">
+      <button class="day-btn active" onclick="showDay('seoul','sd1',this)">
+        <span class="cal-dow">Mon</span><span class="cal-num">27</span><span class="cal-tag">Arrival</span>
+      </button>
+      <button class="day-btn" onclick="showDay('seoul','sd2',this)">
+        <span class="cal-dow">Tue</span><span class="cal-num">28</span><span class="cal-tag">MTG Day</span>
+      </button>
+      <button class="day-btn" onclick="showDay('seoul','sd3',this)">
+        <span class="cal-dow">Wed</span><span class="cal-num">29</span><span class="cal-tag">Geek District</span>
+      </button>
+      <button class="day-btn" onclick="showDay('seoul','sd4',this)">
+        <span class="cal-dow">Thu</span><span class="cal-num">30</span><span class="cal-tag">PC Bang</span>
+      </button>
+      <button class="day-btn" onclick="showDay('seoul','sd5',this)">
+        <span class="cal-dow">Fri</span><span class="cal-num">31</span><span class="cal-tag">LoL + Halloween</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- S-Day 1 -->
+  <section id="sd1" class="day-section active">
+    <div class="day-header">
+      <div class="day-num">01</div>
+      <h2 class="day-title">Touchdown &amp; KBBQ</h2>
+      <p class="day-date">Monday &middot; October 27</p>
+      <div class="day-vibe">Jet lag is real &mdash; land, drop bags, walk out the Hongdae Airbnb door and let the neighborhood do the work. <strong>First meal: Korean BBQ. Non-negotiable.</strong> Then walk off the jet lag with a Hongdae arcade crawl.</div>
+    </div>
+    <div class="transport-wrap transport-seoul"><div class="transport-card">
+    <div class="transport-icon">✈️</div>
+    <p class="transport-title">Incheon Airport (ICN) → Hongdae Airbnb</p>
+    <div class="transport-schedule"><div class="transport-time">~3PM</div><div class="transport-time-label">arrive & settle</div></div>
+    <p class="transport-sub">AREX Express Train to Seoul Station (43 min, ₩9,500) → Line 2 subway to Hongik University Station (Exit 1, 10 min walk to Airbnb). Or Airport Limousine Bus 6002 direct to Hongdae (70–90 min, ₩12,000). Buy AREX tickets at airport kiosks (English UI). Get a T-Money card at any convenience store — use it on all subways and buses.</p>
+    <div class="transport-links"><a href="https://www.arex.or.kr/en/" target="_blank">↗ AREX tickets</a><a href="https://maps.google.com/?q=Incheon+Airport+to+Hongdae+Seoul" target="_blank">↗ Google Maps route</a></div>
+  </div></div>
+<div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1538669715315-155098f0fb1d?w=200&q=75?w=200&q=70" alt="Hongdae" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Check-in</p><h3 class="btitle">Settle into Hongdae Airbnb</h3><p class="bshort">Drop bags, freshen up. Seoul&rsquo;s youth culture hub &mdash; everything walkable from here.</p><div class="tags"><span class="tag ts">Hongdae</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Hongdae (홍대) is Seoul&rsquo;s indie arts and nightlife hub centered around Hongik University. Arcades, noraebang, anime shops, bars, and hundreds of restaurants all within walking distance. Use <strong>Naver Maps or KakaoMap</strong> &mdash; Google Maps barely works in Korea.</p><a href="https://naver.me/FuVpE8fX" class="lbtn" target="_blank">&#8599; Hongdae on Naver Maps</a><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%99%8D%EB%8C%80" class="lbtn r" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Hongdae+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-r" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=75?w=200&q=70" alt="Korean BBQ" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Evening &middot; First meal in Korea</p><h3 class="btitle">Korean BBQ &mdash; Night 1 tradition</h3><p class="bshort">Grill pork belly tableside, wrap in ssam, chase with kimchi jjigae and soju. The only acceptable first meal.</p><div class="tags"><span class="tag tf">KBBQ</span><span class="tag tx">Night 1</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Walk Hongik-ro and find a KBBQ spot with ventilation hoods over each table. Order: <strong>samgyeopsal</strong> (pork belly), corn cheese, steamed egg, kimchi jjigae. Soju mandatory. Cost ~&#8361;15,000&ndash;25,000/person.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%99%8D%EB%8C%80+%EC%82%BC%EA%B2%B9%EC%82%B4" class="lbtn r" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=KBBQ+Hongdae+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1511882150382-421056c89033?w=200&q=75?w=200&q=70" alt="Hongdae arcade" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late night &middot; Walk it off</p><h3 class="btitle">Hongdae arcade crawl</h3><p class="bshort">DDR, Pump It Up, UFO catchers, retro cabs &mdash; Hongdae has coin-op arcades open past midnight. Perfect low-key first night for jet-lagged gamers.</p><div class="tags"><span class="tag tg">Arcade</span><span class="tag tn">Late night</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Walk down Hongdae&rsquo;s main shopping strip after KBBQ and duck into any of the coin-op arcades. Rhythm games are everywhere &mdash; DDR and Pump It Up in particular. UFO catcher machines often have anime and game merch as prizes. &#8361;500&ndash;&#8361;1,000 per play, open past midnight on weekends. No planning needed &mdash; just walk out and follow the neon.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%99%8D%EB%8C%80+%EC%98%A4%EB%9D%BD%EC%8B%A4" class="lbtn" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=arcade+Hongdae+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S-Day 2 -->
+  <section id="sd2" class="day-section">
+    <div class="day-header">
+      <div class="day-num">02</div>
+      <h2 class="day-title">The MTG Highlight</h2>
+      <p class="day-date">Tuesday &middot; October 28</p>
+      <div class="day-vibe"><strong>Rolling Dice MTG store is a 10-min walk from the Airbnb.</strong> English cards, weekend events, prices ~10% cheaper than the US. Cards in the morning, anime store after, chimaek at night.</div>
+    </div>
+    <div class="blocks">
+      <div class="block hl-p" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=200&q=75?w=200&q=70" alt="MTG" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Mid-morning &rarr; Afternoon &middot; Main event</p><h3 class="btitle">Rolling Dice &mdash; MTG Store (10 min walk)</h3><p class="bshort">193 Donggyo-ro, Hongdae. MTG specialist, English cards, tables to play, weekend events. Cards cheaper than back home.</p><div class="tags"><span class="tag tm">MTG Highlight</span><span class="tag tg">Play + Buy</span><span class="tag tx">Main Event</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Address:</strong> 193 Donggyo-ro, Mapo-gu, Seoul. English and Korean cards, huge singles selection, staff speak English. Check Instagram for weekend events or prereleases around Oct 28. Budget &#8361;50,000&ndash;&#8361;150,000 if buying &mdash; exchange rate makes product notably cheaper than the US.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EB%A1%A4%EB%A7%81%EB%8B%A4%EC%9D%B4%EC%8A%A4+%ED%99%8D%EB%8C%80" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Rolling+Dice+MTG+Hongdae+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1599360758370-f2a99dbced19?w=200&q=75?w=200&q=70" alt="Animate" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon add-on</p><h3 class="btitle">Animate Hongdae &mdash; Japan&rsquo;s biggest anime chain</h3><p class="bshort">5th floor AK&amp; Mall, 2 min from Rolling Dice. Figures, manga, VTuber merch, Japan exclusives.</p><div class="tags"><span class="tag tg">Anime merch</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Address:</strong> 5th floor, AK&amp; Hongdae, 188 Yanghwa-ro, Mapo-gu. Officially licensed figures, manga, goods for Chainsaw Man, Haikyuu, JJK, VTubers. Hours: 11:00&ndash;21:00.</p><a href="https://www.animate.co.jp/en/shop/hongdae/" class="lbtn" target="_blank">&#8599; Animate Hongdae official page</a><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%95%88%EB%A6%AC%EB%AF%B8%ED%8A%B8+%ED%99%8D%EB%8C%80" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Animate+Hongdae+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-r" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=75?w=200&q=70" alt="Chimaek" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; Seoul ritual</p><h3 class="btitle">Chimaek &mdash; Fried chicken + beer night</h3><p class="bshort">Double-fried Korean chicken with ice-cold beer. A Seoul institution. Perfect group meal after a day of cards.</p><div class="tags"><span class="tag tf">Group meal</span><span class="tag tx">Seoul ritual</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Double-fried for extra crunch &mdash; soy-garlic, spicy, or honey-butter sauce. Order multiple styles to share. ~&#8361;30,000&ndash;40,000 for the full spread for 4.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%99%8D%EB%8C%80+%EC%B9%98%EB%A7%A5" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Chimaek+Hongdae+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1559818588-c177f3e50399?w=200&q=75?w=200&q=70" alt="Hongdae bar" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late night &middot; Wind down</p><h3 class="btitle">Hongdae bar crawl</h3><p class="bshort">After a full day of MTG and anime shopping, just walk Hongdae and explore. Craft beer, rooftop bars, street food carts still open. No plan needed.</p><div class="tags"><span class="tag tn">Night out</span><span class="tag tf">Drinks</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Hongdae has a great craft beer scene &mdash; <strong>Magpie Brewing</strong> has a taproom here with Korean craft beers on tap. Or just wander Hongik-ro and pop into whatever looks good: rooftop bars with city views, street pojangmacha tents with fried snacks and cans of beer, or a convenience store run with beers on the steps (a classic Seoul move). Low-key end to a packed day.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S-Day 3 -->
+  <section id="sd3" class="day-section">
+    <div class="day-header">
+      <div class="day-num">03</div>
+      <h2 class="day-title">Geek District Day</h2>
+      <p class="day-date">Wednesday &middot; October 29</p>
+      <div class="day-vibe">Yongsan is Seoul&rsquo;s Akihabara &mdash; anime figures, game merch, electronics. Then Kindle Shop (second top MTG store). Night: escape rooms, because Korea basically invented the modern escape room.</div>
+    </div>
+    <div class="blocks">
+      <div class="block hl-p" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=200&q=75?w=200&q=75?w=200&q=70" alt="Anime figures" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Morning &rarr; Afternoon</p><h3 class="btitle">Yongsan: I&rsquo;Park Mall + Kukje Electronics Centre</h3><p class="bshort">Seoul&rsquo;s anime mecca. Floors of figures, rare Gundams, gacha machines, fan merch. The &ldquo;spend 3 hours here&rdquo; stop.</p><div class="tags"><span class="tag tg">Anime figures</span><span class="tag tx">Geek HQ</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>I&rsquo;Park Mall</strong> in Yongsan: massive floors dedicated to animation and gaming IP. Take Line 1 to Yongsan Station.</p><p><strong>Kukje Electronics Centre</strong> (서초구 효로 304): rare POP figures, model kits, Gundam, One Piece, DBZ, gacha. Budget &#8361;50,000&ndash;&#8361;200,000+ depending on willpower.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EA%B5%AD%EC%A0%9C%EC%A0%84%EC%9E%90%EC%84%BC%ED%84%B0" class="lbtn r" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Kukje+Electronics+Centre+Seoul" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=200&q=70" alt="MTG" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late afternoon</p><h3 class="btitle">Kindle Shop &mdash; Top 3 MTG store in Seoul</h3><p class="bshort">197 Achasan-ro, Gwangjin-gu, 4th floor. English staff, massive singles selection. Compare with Rolling Dice finds.</p><div class="tags"><span class="tag tm">MTG Shopping</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Near Konkuk University station on Line 2. Top 3 MTG store in Seoul per the local TCG community. English and Korean singles, sealed product from multiple sets. Instagram: @kindleshop</p><a href="https://www.instagram.com/kindleshop/" class="lbtn r" target="_blank">&#8599; @kindleshop</a><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%82%A8%EB%93%A4%EC%83%B5+%EA%B4%91%EC%A7%84" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Kindle+Shop+MTG+Gwangjin+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-r" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1637858868799-7f26a0640eb6?w=200&q=75?w=200&q=70" alt="Escape room" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Night &middot; Group activity</p><h3 class="btitle">Escape Room in Hongdae</h3><p class="bshort">Korea invented the modern escape room. Seoul Escape Room Hongdae 2 has English-friendly staff. ~&#8361;20,000/person. Book ahead.</p><div class="tags"><span class="tag tg">Group activity</span><span class="tag tn">Night event</span><span class="tag tx">Book ahead</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Seoul has hundreds of escape rooms. Seoul Escape Room Hongdae 2 is top-rated for English speakers with creative puzzle design. Cost &#8361;15,000&ndash;25,000/person. Group of 4 is ideal. Book in advance online.</p><a href="https://www.tripadvisor.com/Attraction_Review-g294197-d12049435-Reviews-Seoul_Escape_Room_Hongdae_2-Seoul.html" class="lbtn" target="_blank">&#8599; TripAdvisor reviews</a><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%99%8D%EB%8C%80+%EB%B0%A9%ED%83%88%EC%B6%9C" class="lbtn r" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Escape+Room+Hongdae+Seoul" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S-Day 4 -->
+  <section id="sd4" class="day-section">
+    <div class="day-header">
+      <div class="day-num">04</div>
+      <h2 class="day-title">Palaces, Pancakes + PC Bang</h2>
+      <p class="day-date">Thursday &middot; October 30</p>
+      <div class="day-vibe">Best fall foliage day at Changdeokgung&rsquo;s Secret Garden, Gwangjang Market for lunch, PC bang squad session in the afternoon. Finish with the best beef tartare in Seoul &mdash; Michelin-recognized 9 years running.</div>
+    </div>
+    <div class="blocks">
+      <div class="block hl-r" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1563693766-85fdb2e6e04a?w=200&q=75?w=200&q=70" alt="Changdeokgung" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Morning &middot; Book tickets in advance</p><h3 class="btitle">Changdeokgung + Secret Garden</h3><p class="bshort">Most beautiful palace in Seoul. Secret Garden: limited slots, book ahead. Late Oct fall foliage is stunning here.</p><div class="tags"><span class="tag ts">Culture</span><span class="tag tx">Best in fall</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>The Secret Garden (후원) is a 78-acre secluded garden &mdash; guided tours only, slots sell out. Late October maple and ginkgo trees turn brilliant red and gold.</p><a href="https://ticket.cdg.go.kr/" class="lbtn r" target="_blank">&#8599; Book Secret Garden tickets</a><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%B0%BD%EB%8D%95%EA%B6%81" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Changdeokgung+Palace+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-r" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1553163147-622ab57be1c7?w=200&q=75?w=200&q=70" alt="Gwangjang Market" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Lunch &middot; Market grazing</p><h3 class="btitle">Gwangjang Market</h3><p class="bshort">Seoul&rsquo;s oldest market. Mung bean pancakes, yukhoe, handmade noodles, makgeolli. As seen on Netflix Street Food.</p><div class="tags"><span class="tag tf">Street food</span><span class="tag tx">Must do</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Must try: <strong>bindaetteok</strong> (mung bean pancakes), <strong>mayak gimbap</strong> (tiny seaweed rice rolls), <strong>kalguksu</strong> knife-cut noodles at Gohyang Sonkalguksu (the Netflix stall). Wash down with makgeolli. Budget &#8361;15,000&ndash;25,000/person.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Gwangjang+Market+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-p" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&q=75?w=200&q=70" alt="PC bang" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Squad gaming session</p><h3 class="btitle">PC Bang &mdash; Korean gaming cafe</h3><p class="bshort">Ultra-fast PCs, free snacks and drinks. Queue up and play together as a squad. Gen.G GGX in Dongdaemun is the premium new spot.</p><div class="tags"><span class="tag tg">PC Bang</span><span class="tag tx">Cultural experience</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>High-spec PCs, fast internet, food/drink menu ordered from your seat. <strong>Gen.G Gaming Experience (GGX)</strong> in Dongdaemun is the next-gen PC bang. Cost &#8361;1,500&ndash;&#8361;3,000/hr per person. Budget 2&ndash;3 hours for a proper squad session.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EB%8F%99%EB%8C%80%EB%AC%B8+PC%EB%B0%A9" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=PC+Bang+Dongdaemun+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1534482421-64566f976cfa?w=200&q=75?w=200&q=70" alt="Yukhoe" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; 9-time Michelin pick</p><h3 class="btitle">Buchon Yukhoe &mdash; Best beef tartare in Seoul</h3><p class="bshort">Raw beef, egg yolk, crunchy Asian pear. Michelin-recognized 9 consecutive years. Small place &mdash; arrive early.</p><div class="tags"><span class="tag tf">Michelin</span><span class="tag tx">Don&rsquo;t miss</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Fresh raw beef with julienned Asian pear, pine nuts, runny egg yolk, sesame oil. Share one plate between 2&ndash;3 people. Small restaurant near Bukchon Hanok Village &mdash; arrive when it opens.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EB%B6%81%EC%B4%8C%EC%9C%A1%ED%9A%8C" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Buchon+Yukhoe+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S-Day 5 -->
+  <section id="sd5" class="day-section">
+    <div class="day-header">
+      <div class="day-num">05</div>
+      <h2 class="day-title">LoL Park + Halloween Hongdae</h2>
+      <p class="day-date">Friday &middot; October 31 &middot; Halloween</p>
+      <div class="day-vibe"><strong>You&rsquo;re in Hongdae on Halloween &mdash; 100,000+ people in costumes flood the streets.</strong> One of the wildest Halloween parties in Asia. LoL Park in the afternoon, then let the neighborhood take over at night.</div>
+    </div>
+    <div class="blocks">
+      <div class="block hl-p" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1593280788044-de0bbef7e4bc?w=200&q=75?w=200&q=70" alt="LoL Park" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Esports pilgrimage</p><h3 class="btitle">LoL Park (CHZZK LoL Park)</h3><p class="bshort">33 Jong-ro, Jongno, 3rd floor. Home of the LCK. Riot Store Seoul-only merch, PC bang inside. Check for live matches Oct 28&ndash;31.</p><div class="tags"><span class="tag tg">Esports mecca</span><span class="tag tx">Gamer pilgrimage</span><div class="map-btns"><a href="https://map.naver.com/v5/search/%EB%A1%A4%ED%8C%8C%ED%81%AC" class="lbtn r" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=LoL+Park+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Home of the LCK &mdash; Korea&rsquo;s top League of Legends league. <strong>Riot Store</strong> has exclusive LoL Park-only merch. Full PC bang inside. If a match is scheduled during your stay, buy tickets on <strong>Interpark</strong> immediately &mdash; they sell out. Weekday &#8361;41,000 / Weekend &#8361;51,000.</p><a href="https://global.interpark.com" class="lbtn r" target="_blank">&#8599; Buy LCK tickets (Interpark)</a><div class="map-btns"><a href="https://map.naver.com/v5/search/%EB%A1%A4%ED%8C%8C%ED%81%AC+%EC%A2%85%EB%A1%9C" class="lbtn r" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=LoL+Park+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1548116137-c9ac24e446d9?w=200&q=75?w=200&q=70" alt="Insadong" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Morning &middot; Near LoL Park</p><h3 class="btitle">Insadong &mdash; souvenirs + street snacks</h3><p class="bshort">Dalgona candy (Squid Game toffee), hotteok, Ssamziegil indie shops &mdash; all a short walk from LoL Park.</p><div class="tags"><span class="tag ts">Shopping</span><span class="tag tf">Snacks</span><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%9D%B8%EC%82%AC%EB%8F%99" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Insadong+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Get <strong>dalgona</strong> (the Squid Game honeycomb toffee), <strong>hotteok</strong> (sweet pancakes), and browse Ssamziegil &mdash; a multi-story indie shop arcade with 70+ boutiques and cafes.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%9D%B8%EC%82%AC%EB%8F%99" class="lbtn " target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Insadong+Seoul" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-r" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1604964432806-254d07c11f32?w=200&q=75?w=200&q=70" alt="Halloween" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Night &middot; Halloween in Hongdae</p><h3 class="btitle">Halloween street party &mdash; 100,000+ people</h3><p class="bshort">Hongdae goes completely wild on Oct 31. Costumes, street food, bars. One of the best Halloween parties in Asia. Free. Walk out the door.</p><div class="tags"><span class="tag tn">Halloween</span><span class="tag tx">Lucky timing</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>110,000+ people in elaborate costumes &mdash; K-pop, anime, full theatrical builds. Free, outdoors, bars open extremely late. You&rsquo;re staying right here. Wear a costume. End the night at noraebang.</p></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=200&q=75?w=200&q=70" alt="KBBQ" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; Send-off meal</p><h3 class="btitle">Final Seoul KBBQ &mdash; send-off dinner</h3><p class="bshort">Last night in Seoul before KTX to Busan tomorrow. Order everything. Toast to the trip so far.</p><div class="tags"><span class="tag tf">Send-off</span><span class="tag tn">Final Seoul night</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Full spread: samgyeopsal, galbi, corn cheese, steamed egg, kimchi jjigae. Multiple rounds of soju. Tomorrow: KTX from Seoul Station to Busan &mdash; book ahead at <a href="https://rail.ninja" style="color:var(--purple)" target="_blank">rail.ninja</a>. ~2h30m, ~&#8361;59,800/person.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════ BUSAN ═══════ -->
+<div id="busan" class="city-view busan-view">
+  <div class="hero">
+    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1558276561-fd04bb4e5a62?w=1600&q=80');background-position:center 60%"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">The Crew &middot; Nov 1 &ndash; 3 &middot; 2 nights</p>
+      <h1 class="hero-title">BUSAN<br><span class="accent-t">&#48512;&#49328;</span></h1>
+      <div class="hero-meta">
+        <span class="hero-pill">Gwanganli Beach Hotel</span>
+        <span class="hero-pill">Seafood &middot; Coastal walks &middot; Temples</span>
+        <span class="hero-pill">~62&deg;F days &middot; Crisp &amp; clear</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cal-wrap" id="busanNav">
+    <p class="cal-label">Busan &middot; Nov 1&ndash;3</p>
+    <div class="day-nav">
+      <button class="day-btn active" onclick="showDay('busan','bd1',this)">
+        <span class="cal-dow">Sat</span><span class="cal-num">1</span><span class="cal-tag">Arrive + Coast</span>
+      </button>
+      <button class="day-btn" onclick="showDay('busan','bd2',this)">
+        <span class="cal-dow">Sun</span><span class="cal-num">2</span><span class="cal-tag">Temple + Jagalchi</span>
+      </button>
+      <button class="day-btn" onclick="showDay('busan','bd3',this)">
+        <span class="cal-dow">Mon</span><span class="cal-num">3</span><span class="cal-tag">Fly to Taipei</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="transit-wrap">
+    <div class="transit"><span style="font-size:22px">&#128132;</span><div><strong>KTX Seoul Station &rarr; Busan Station</strong> &middot; ~2h30m &middot; ~&#8361;59,800/person &middot; Book ahead for the morning Nov 1 departure <a href="https://rail.ninja" target="_blank">&#8599; rail.ninja</a></div></div>
+  </div>
+
+  <!-- B-Day 1 -->
+  <section id="bd1" class="day-section active">
+    <div class="day-header">
+      <div class="day-num">01</div>
+      <h2 class="day-title">Arrive + Hit the Coast</h2>
+      <p class="day-date">Saturday &middot; November 1</p>
+      <div class="day-vibe">KTX in from Seoul, drop bags at the Gwanganli hotel, then go straight to the coastline. <strong>The Igidae coastal trail with ocean cliff views</strong> is the perfect afternoon reset after 5 days in Seoul. Finish with seafood BBQ by the water as the Gwangan Bridge lights up.</div>
+    </div>
+    <div class="transport-wrap transport-busan"><div class="transport-card">
+    <div class="transport-icon">🚄</div>
+    <p class="transport-title">Seoul Station → Busan Station · KTX</p>
+    <div class="transport-schedule"><div class="transport-time">07:15</div><div class="transport-time-label">leave Airbnb</div></div>
+    <p class="transport-sub">Book the 08:00 or 09:00 departure from Seoul Station (Line 1 or 4). Arrives Busan ~10:30–11:30am. From Busan Station take Line 2 subway toward Jangsan, exit at Gwangalli Station (Exit 3, 5 min walk to hotel). Buy KTX tickets on Korail app or rail.ninja — book 2–3 weeks ahead, seats sell out.</p>
+    <div class="transport-links"><a href="https://rail.ninja" target="_blank">↗ rail.ninja</a><a href="https://www.letskorail.com/ebizbf/EbizBfKrPassAbrdList.do" target="_blank">↗ Korail official</a></div>
+  </div></div>
+<div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=200&q=75?w=200&q=70" alt="KTX" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Morning &middot; Travel day</p><h3 class="btitle">KTX Seoul &rarr; Busan + Check-in Gwanganli Hotel</h3><p class="bshort">2h30m high-speed train. Hotel is right on Gwanganli Beach &mdash; you can see the Gwangan Bridge from outside.</p><div class="tags"><span class="tag ts">Transit</span><span class="tag tb">Gwanganli</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Book KTX at <a href="https://rail.ninja" target="_blank" style="color:var(--teal)">rail.ninja</a> or the Korail app. Take morning departure from Seoul Station. From Busan Station, subway Line 2 to Gwangalli or taxi ~&#8361;15,000.</p><a href="https://rail.ninja" class="lbtn t" target="_blank">&#8599; Book KTX tickets</a></div>
+      </div>
+      <div class="block hl-t" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=200&q=75?w=200&q=70" alt="Coastal trail" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Stretch your legs</p><h3 class="btitle">Igidae Coastal Trail + Oryukdo Skywalk</h3><p class="bshort">Cliffside ocean trail with dramatic East Sea views. Ends at a glass-bottomed skywalk 35m over the cliff. ~2 hours. Perfect Nov weather.</p><div class="tags"><span class="tag tb">Coastal walk</span><span class="tag tx">Best in Busan</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Trail runs along dramatic cliffs &mdash; quieter and more natural than the busy beaches. The <strong>Oryukdo Skywalk</strong> is a horseshoe-shaped glass bridge extending 35m over a cliff, with views straight down to the crashing waves below.</p><p>~2 hours at a relaxed pace. Wear comfortable shoes. Start from Oryukdo Sunrise Park, walk north toward Gwangalli. November is ideal &mdash; crisp, clear, low humidity.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%98%A4%EB%A5%99%EB%8F%84+%EC%8A%A4%EC%B9%B4%EC%9D%B4%EC%9B%8C%ED%81%AC" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Oryukdo+Skywalk+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=75?w=200&q=70" alt="Gukbap" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late afternoon snack</p><h3 class="btitle">Dwaeji Gukbap &mdash; Busan&rsquo;s pork soup rice</h3><p class="bshort">Busan&rsquo;s beloved comfort dish &mdash; pork broth with rice, chives, and dipping sauce. Perfect post-hike fuel.</p><div class="tags"><span class="tag tf">Busan staple</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Ssangdoongi Dwaeji Gukbap</strong> near Bujeon Market is the local go-to. Open from early morning. ~&#8361;10,000/person. Rich, pork-forward broth that&rsquo;s deeply comforting after a coastal walk.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%8C%8D%EB%91%A5%EC%9D%B4+%EB%8F%BC%EC%A7%80%EA%B5%AD%EB%B0%A5" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Ssangdoongi+Dwaeji+Gukbap+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-t" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1625938144755-652e08e359b7?w=200&q=75?w=200&q=70" alt="Seafood BBQ" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; Sunset + bridge view</p><h3 class="btitle">Cheongsapo Seafood BBQ by the ocean</h3><p class="bshort">Grill your own clams, scallops, mussels, jumbo shrimp at your table with an ocean breeze. Pair with soju. The Busan experience.</p><div class="tags"><span class="tag tf">Seafood BBQ</span><span class="tag tx">Must do</span><span class="tag tb">Oceanside</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Cheongsapo (청사포) is a quiet fishing village between Haeundae and Gwanganli. Restaurants set up BBQ grills right by the water &mdash; order clams, scallops, mussels, whole shrimp and grill tableside with the sea breeze.</p><p>Go around sunset so you get the golden-hour view, then the lit-up Gwangan Bridge as it gets dark. Pair with soju or makgeolli. ~&#8361;20,000&ndash;35,000/person.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%B2%AD%EC%82%AC%ED%8F%AC+%ED%95%B4%EC%82%B0%EB%AC%BC" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Cheongsapo+seafood+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1569144157591-c60f3f82f137?w=200&q=75?w=200&q=70" alt="Gwangalli night" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Night &middot; Walk back from dinner</p><h3 class="btitle">Gwangalli Beach night walk + bar crawl</h3><p class="bshort">Gwangan Bridge lit up in colors, beachfront bars, live music. You&rsquo;re staying right here &mdash; easiest end to a day ever.</p><div class="tags"><span class="tag tb">Beach night</span><span class="tag tn">Nightlife</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Walk the beachfront back to your hotel &mdash; the Gwangan Bridge lights up in changing colors and is one of the most photogenic spots in Korea. Dozens of bars and rooftop lounges line the beach. Grab a drink, sit on the sand, and decompress. This is the Busan move.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B-Day 2 -->
+  <section id="bd2" class="day-section">
+    <div class="day-header">
+      <div class="day-num">02</div>
+      <h2 class="day-title">Temple, Color + Jagalchi</h2>
+      <p class="day-date">Sunday &middot; November 2</p>
+      <div class="day-vibe">Early start for Haedong Yonggungsa temple on the sea cliffs &mdash; go before crowds. Then Gamcheon Culture Village for the colorful hillside wander. End at <strong>Jagalchi Market</strong> &mdash; pick your live seafood, take it upstairs to get cooked, eat it impossibly fresh.</div>
+    </div>
+    <div class="blocks">
+      <div class="block hl-t" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=200&q=75?w=200&q=70" alt="Haedong temple" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Early morning &middot; Go before crowds</p><h3 class="btitle">Haedong Yonggungsa &mdash; Sea cliff temple</h3><p class="bshort">Korea&rsquo;s only coastal temple, built right on the rocks above the ocean. Stunning. Go early &mdash; gets crowded by mid-morning.</p><div class="tags"><span class="tag ts">Temple</span><span class="tag tb">Coastal</span><span class="tag tx">Iconic Busan</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Haedong Yonggungsa (해동용궁사) is perched right on sea cliffs above the East Sea &mdash; traditional Korean architecture with crashing waves below. Unlike any other temple. Morning light and fewer tourists make early arrival worth it.</p><p>Taxi from Gwanganli ~&#8361;15,000&ndash;20,000 or Bus 181 from Haeundae Station. Nearby spots serve fresh seafood bibimbap with ocean views afterward.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Haedong+Yonggungsa+Temple+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-t" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1609766857585-a082db73a0fb?w=200&q=75?w=200&q=70" alt="Gamcheon" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Mid-morning &rarr; Lunch</p><h3 class="btitle">Gamcheon Culture Village</h3><p class="bshort">Colorful hillside village with winding alleys, street art, cafes, and panoramic sea views. The &ldquo;Machu Picchu of Korea.&rdquo;</p><div class="tags"><span class="tag ts">Culture village</span><span class="tag tb">Views</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Built by Korean War refugees on a steep hillside and turned into an arts project &mdash; every wall painted, every alley filled with murals and sculptures. The <strong>Little Prince statue</strong> is the famous photo spot. Get the &#8361;2,000 stamp map at the entrance &mdash; it&rsquo;s a proper maze.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EA%B0%90%EC%B2%9C%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Gamcheon+Culture+Village+Busan" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=200&q=75?w=200&q=70" alt="Milmyeon" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Lunch &middot; Busan-only dish</p><h3 class="btitle">Milmyeon &mdash; Busan&rsquo;s cold wheat noodles</h3><p class="bshort">Cold noodles unique to Busan, a point of fierce local pride. Try Gukje Milmyeon in Seomyeon. Cheap, filling, delicious.</p><div class="tags"><span class="tag tf">Busan-only</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Milmyeon (밀면) &mdash; cold noodles from wheat, sweet potatoes, and potatoes. Locals are fiercely proud of it. <strong>Gukje Milmyeon</strong> in Seomyeon is the classic spot. Order: mul milmyeon (cold broth) or bibim milmyeon (spicy sauce). ~&#8361;8,000/bowl.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EA%B5%AD%EC%A0%9C%EB%B0%80%EB%A9%B4+%EC%84%9C%EB%A9%B4" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Gukje+Milmyeon+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1519984388953-d2406bc725e1?w=200&q=75?w=200&q=70" alt="Haeundae" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Leisurely</p><h3 class="btitle">Haeundae Beach walk + cafe stop</h3><p class="bshort">Busan&rsquo;s famous 1.5km beach. Way less crowded in November. Perfect breezy afternoon walk with a cafe stop.</p><div class="tags"><span class="tag tb">Beach</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Wide white sand, 1.5km long. In November it&rsquo;s blissfully uncrowded. Walk the promenade, grab a coffee at one of the beachfront cafes. Good 1-hour stop between Gamcheon and dinner at Jagalchi.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%ED%95%B4%EC%9A%B4%EB%8C%80+%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Gamcheon+Culture+Village+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-t" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1534957942270-41b05b20df60?w=200&q=75?w=200&q=70" alt="Jagalchi" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; The Busan experience</p><h3 class="btitle">Jagalchi Market &mdash; pick your seafood live</h3><p class="bshort">Korea&rsquo;s largest seafood market. Pick live fish, crab, octopus from vendors. Take it upstairs and have it cooked for you. As fresh as it gets.</p><div class="tags"><span class="tag tf">Seafood</span><span class="tag tx">Iconic Busan</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Ground floor: vendors with live fish, crab, octopus, sea urchin, abalone in tanks &mdash; pick what you want. Upstairs: restaurants cook your selection. Stall 183 vendor is famously English-friendly and generous with extras like sea urchin and scallops.</p><p>Budget &#8361;30,000&ndash;60,000/person. King crab is the big-ticket item. Also get sashimi (hoe), grilled eel, and a spicy seafood stew. Go ~6&ndash;7pm for the best energy.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%9E%90%EA%B0%88%EC%B9%98%EC%8B%9C%EC%9E%A5" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Jagalchi+Market+Busan" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=200&q=75?w=200&q=70" alt="Busan craft beer bar" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late night &middot; Group hang</p><h3 class="btitle">Craft beer + pojangmacha tents in Seomyeon</h3><p class="bshort">Skip karaoke &mdash; Busan has some of Korea&rsquo;s best craft beer bars and street tent stalls (pojangmacha). Order fried chicken, makgeolli, and people-watch.</p><div class="tags"><span class="tag tn">Nightlife</span><span class="tag tf">Group hang</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Seomyeon (서면) is Busan&rsquo;s main nightlife area. Instead of karaoke, hit the <strong>craft beer bars</strong> &mdash; The Booth Busan and Galmegi Brewing are the top spots. Or find a <strong>pojangmacha</strong> (orange tent stall) and order fried chicken, fish cake skewers (eomuk), and cold cans of beer at a folding table on the street. Very local, very fun for a group.</p><p>If you want something more active: <strong>Gangbyeon station area</strong> has a row of bars with darts boards, pool tables, and arcade machines inside &mdash; more game bar than nightclub energy, perfect for this crew.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EC%84%9C%EB%A9%B4+%EB%A7%A5%EC%A3%BC" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=craft+beer+Seomyeon+Busan" class="lbtn" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B-Day 3 -->
+  <section id="bd3" class="day-section">
+    <div class="day-header">
+      <div class="day-num">03</div>
+      <h2 class="day-title">Morning Send-off &rarr; Taipei</h2>
+      <p class="day-date">Monday &middot; November 3</p>
+      <div class="day-vibe">Flight to Taipei departs Gimhae Airport (PUS) at 11:50am. Easy morning &mdash; quick beach walk, a bowl of gukbap, then airport. <strong>Next stop: Taiwan.</strong></div>
+    </div>
+    <div class="transport-wrap transport-busan"><div class="transport-card">
+    <div class="transport-icon">🛫</div>
+    <p class="transport-title">Gwanganli Hotel → Gimhae Airport (PUS)</p>
+    <div class="transport-schedule"><div class="transport-time">08:45</div><div class="transport-time-label">leave hotel</div></div>
+    <p class="transport-sub">Take a taxi from the hotel (~₩25,000–35,000, 25–35 min). Or Bus 307 from Gwangalli Beach to Gimhae Airport (50 min, ₩1,800). Taxi is strongly recommended with luggage. Flight CI 189 departs 11:50am — aim to arrive at the airport by 9:30am.</p>
+    <div class="transport-links"><a href="https://maps.google.com/?q=Gwangalli+to+Gimhae+Airport" target="_blank">↗ Google Maps route</a></div>
+  </div></div>
+<div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=75?w=200&q=70" alt="Beach morning" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Early morning</p><h3 class="btitle">Final Gwangalli beach walk</h3><p class="bshort">Morning light on the bridge, empty beach, locals jogging. The quiet version of Busan before checkout.</p><div class="tags"><span class="tag tb">Morning</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>The beach is empty in the early morning. Gwangan Bridge catches the morning light differently than at night. 20&ndash;30 min walk before breakfast, then checkout.</p></div>
+      </div>
+      <div class="block hl-t" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=75?w=200&q=70" alt="Gukbap breakfast" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Breakfast &middot; Final Busan meal</p><h3 class="btitle">Dwaeji Gukbap breakfast &mdash; Busan send-off</h3><p class="bshort">The classic Busan morning meal. Pork bone broth, rice, chives, dipping sauce. Open from 7am. Perfect send-off.</p><div class="tags"><span class="tag tf">Busan farewell</span><span class="tag tx">Final meal</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Pork soup for breakfast is a Busan institution. Budget 1.5&ndash;2 hours before the 11:50am flight. <strong>Airport:</strong> Gimhae International (PUS). Taxi from Gwanganli: ~&#8361;25,000&ndash;35,000, ~30 min.</p><div class="map-btns"><a href="https://map.naver.com/v5/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Gimhae+International+Airport+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=200&q=75?w=200&q=70" alt="Departure" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late morning &middot; Depart</p><h3 class="btitle">PUS &rarr; TPE &middot; China Airlines CI 189</h3><p class="bshort">Departs 11:50am Gimhae (PUS). Arrives Taipei (TPE) 1:30pm. 2h40m. Next stop: Ximending, Taipei.</p><div class="tags"><span class="tag ts">Departure</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Leave hotel by 9:30am. Taxi to Gimhae Airport ~30 min. Grab duty-free Korean snacks at the airport (banana milk, Pepero, Choco Pie) for the flight. Taiwan is 1 hour ahead of Korea &mdash; you land at 1:30pm Taipei time with the whole afternoon ahead.</p></div>
+      </div>
+  </section>
+</div>
+
+<!-- ═══════ TAIPEI ═══════ -->
+<div id="taipei" class="city-view taipei-view">
+  <div class="hero">
+    <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=1600&q=80');background-position:center 55%"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">The Crew &middot; Nov 3 &ndash; 9 &middot; 6 nights</p>
+      <h1 class="hero-title">TAIPEI<br><span style="color:#b45309">&#21488;&#21271;</span></h1>
+      <div class="hero-meta">
+        <span class="hero-pill">Ximending Airbnb</span>
+        <span class="hero-pill">MTG &middot; Anime &middot; Night Markets</span>
+        <span class="hero-pill">Food &middot; Hot Springs &middot; Jiufen</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cal-wrap" id="taipeiNav">
+    <p class="cal-label">Taipei &middot; Nov 3&ndash;9</p>
+    <div class="day-nav">
+      <button class="day-btn active" onclick="showDay('taipei','td1',this)">
+        <span class="cal-dow">Mon</span><span class="cal-num">3</span><span class="cal-tag">Arrive</span>
+      </button>
+      <button class="day-btn" onclick="showDay('taipei','td2',this)">
+        <span class="cal-dow">Tue</span><span class="cal-num">4</span><span class="cal-tag">MTG + Syntrend</span>
+      </button>
+      <button class="day-btn" onclick="showDay('taipei','td3',this)">
+        <span class="cal-dow">Wed</span><span class="cal-num">5</span><span class="cal-tag">Jiufen Trip</span>
+      </button>
+      <button class="day-btn" onclick="showDay('taipei','td4',this)">
+        <span class="cal-dow">Thu</span><span class="cal-num">6</span><span class="cal-tag">Hot Springs</span>
+      </button>
+      <button class="day-btn" onclick="showDay('taipei','td5',this)">
+        <span class="cal-dow">Fri</span><span class="cal-num">7</span><span class="cal-tag">101 + DTF</span>
+      </button>
+      <button class="day-btn" onclick="showDay('taipei','td6',this)">
+        <span class="cal-dow">Sat&ndash;Sun</span><span class="cal-num">8&ndash;9</span><span class="cal-tag">Fly Home</span>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- T-Day 1 -->
+  <section id="td1" class="day-section active">
+    <div class="day-header">
+      <div class="day-num">01</div>
+      <h2 class="day-title">Land + Ximending First Night</h2>
+      <p class="day-date">Monday &middot; November 3</p>
+      <div class="day-vibe">You land at 1:30pm with the whole afternoon ahead. <strong>You&rsquo;re staying in Ximending</strong> &mdash; Taipei&rsquo;s Harajuku, packed with street food 24 hours, anime shops, photo booths, and night energy. First night: explore the neighborhood then hit Ningxia Night Market for the best street food in the city.</div>
+    </div>
+    <div class="transport-wrap transport-taipei"><div class="transport-card">
+    <div class="transport-icon">🛬</div>
+    <p class="transport-title">Taoyuan Airport (TPE) → Ximending Airbnb</p>
+    <div class="transport-schedule"><div class="transport-time">~2:30PM</div><div class="transport-time-label">arrive Ximending</div></div>
+    <p class="transport-sub">Airport MRT (Taoyuan Airport Line) direct to Taipei Main Station (40 min, NT$160). Buy EasyCard at the airport — reloadable card for all MRT, buses, and convenience stores. From Taipei Main Station walk 10 min to Ximending or take MRT 1 stop to Ximen Station (Exit 6). Lands 1:30pm, at Airbnb by ~2:30pm.</p>
+    <div class="transport-links"><a href="https://maps.google.com/?q=Taoyuan+Airport+to+Ximending+Taipei" target="_blank">↗ Google Maps route</a><a href="https://www.tymetro.com.tw/en/" target="_blank">↗ Airport MRT</a></div>
+  </div></div>
+<div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?w=200&q=75?w=200&q=70" alt="Taipei arrival" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Check-in</p><h3 class="btitle">MRT from airport &rarr; Ximending Airbnb</h3><p class="bshort">Airport MRT Line to Taipei Main Station, then walk or taxi to Ximending. Drop bags, get your EasyCard for the MRT.</p><div class="tags"><span class="tag ts">Transit</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Airport MRT (Taoyuan Airport Line) from TPE to Taipei Main Station: NT$160, ~40 min. Get an <strong>EasyCard</strong> at the airport station &mdash; it works on all MRT lines, buses, and convenience stores. From Taipei Main Station, Ximending is a 10-min walk or one MRT stop (Ximen Station). Use Exit 6 for the pedestrian shopping street.</p></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=200&q=75?w=200&q=70" alt="Ximending" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Explore your neighborhood</p><h3 class="btitle">Ximending &mdash; Taipei&rsquo;s Harajuku</h3><p class="bshort">Pedestrian shopping street with anime shops, Korean photo booths, street food, Animate Taiwan, and claw machines. You&rsquo;re staying here &mdash; just walk out.</p><div class="tags"><span class="tag tg">Anime + gaming</span><span class="tag tf">Street food</span><span class="tag ts">Your neighborhood</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Ximending (西門町) is Taipei&rsquo;s answer to Harajuku &mdash; fully pedestrianised, packed with indie fashion, anime goods, street art (Rainbow Road is the colourful alley off Exit 6), food stalls open 24 hours, and a buzzing nightlife scene by evening. It&rsquo;s popular with anime and video game fans who show up in cosplay on weekends.</p><p><strong>Animate Taipei</strong> is in the Ximen Underground Mall (B1, 39 Section 1 Zhonghua Rd) &mdash; the Taiwan flagship, with manga, figures, VTuber merch, limited event goods. Also check out the <strong>Taipei City Underground Mall</strong> connecting MRT stations &mdash; described as &ldquo;Akihabara underground&rdquo; with gacha machines, claw machines, trading cards, and anime goods.</p><a href="https://www.animate.co.jp/en/shop/taipei/" class="lbtn amber" target="_blank">&#8599; Animate Taipei official page</a><div class="map-btns"><a href="https://maps.google.com/?q=Ximending+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=200&q=75?w=200&q=75?w=200&q=70" alt="Night market food" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; Night 1</p><h3 class="btitle">Ningxia Night Market &mdash; Michelin stall capital of Taiwan</h3><p class="bshort">Highest concentration of Michelin-recognized stalls in Taiwan. Compact and local. Oyster omelette, braised pork rice, fried taro balls. 10 min from Ximending.</p><div class="tags"><span class="tag tf">Night market</span><span class="tag tx">Must do</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Ningxia Night Market (寧夏夜市) is smaller than Shilin and Raohe but has the highest concentration of Michelin-recognized stalls in all of Taiwan. Go around 7pm when everything is fully open. Must eat: <strong>oyster omelette</strong> (gooey, crispy, sweet-spicy sauce), <strong>lu rou fan</strong> (braised pork rice), <strong>fried taro balls</strong>, pork liver soup.</p><p>Opens 5pm, hits full swing at 7pm. Easy 10-min taxi from Ximending (or MRT to Zhongshan Station).</p><div class="map-btns"><a href="https://maps.google.com/?q=Ningxia+Night+Market+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=200&q=75?w=200&q=70" alt="KTV karaoke" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late night &middot; Group activity</p><h3 class="btitle">KTV &mdash; Taiwan&rsquo;s karaoke with English songs</h3><p class="bshort">KTV (Karaoke TV) is huge in Taiwan. Private room, drinks to room, hours of songs. EST Bar has the best English selection &mdash; book via Facebook.</p><div class="tags"><span class="tag tn">Group activity</span><span class="tag tg">Night culture</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>KTV is the Taiwanese version of noraebang &mdash; private rooms, song tablets, drinks and food delivered. Major chains Holiday KTV and Partyworld are everywhere in Ximending, but for the best English-song selection, <strong>EST Bar</strong> is the top recommendation for English-speaking visitors. Book via their Facebook page in advance. Ximending also has dozens of KTV spots to walk into without booking.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T-Day 2 -->
+  <section id="td2" class="day-section">
+    <div class="day-header">
+      <div class="day-num">02</div>
+      <h2 class="day-title">MTG + Syntrend Geek Day</h2>
+      <p class="day-date">Tuesday &middot; November 4</p>
+      <div class="day-vibe"><strong>Two top MTG destinations in one day</strong> &mdash; Magic Star Board Game Cafe (the best-reviewed MTG cafe in Taipei) and Card Master Games (English staff, MTG/Pok&eacute;mon/Yu-Gi-Oh). Then Syntrend Creative Park: Taipei&rsquo;s 13-floor answer to Akihabara with two full floors of anime and gaming merch.</div>
+    </div>
+    <div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=200&q=75?w=200&q=70" alt="Breakfast Taiwan" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Early morning &middot; Taiwanese tradition</p><h3 class="btitle">Fu Hang Dou Jiang &mdash; Traditional breakfast</h3><p class="bshort">Opens 5:30am. Locals queue for soy milk, fried dough sticks, egg crepes. The quintessential Taiwan morning ritual. Opens early, closes when sold out.</p><div class="tags"><span class="tag tf">Morning ritual</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Fu Hang Dou Jiang (阜杭豆漿) opens at 5:30am and there&rsquo;s usually a queue. Order: <strong>warm sweetened soy milk</strong> (doujang), <strong>shao bing</strong> (sesame flatbread), and <strong>you tiao</strong> (fried dough sticks). Cost ~NT$60&ndash;80. It&rsquo;s above Huashan Market, go to 2F. Closes when sold out around mid-morning.</p><div class="map-btns"><a href="https://maps.google.com/?q=Fu+Hang+Dou+Jiang+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-p" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=200&q=70" alt="MTG" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Mid-morning &middot; MTG Highlight</p><h3 class="btitle">Magic Star Board Game Caf&eacute; &mdash; Best MTG spot in Taipei</h3><p class="bshort">Da&rsquo;an District. Reviewed as &ldquo;absolutely the best place for MTG in Taipei.&rdquo; Cozy, English-friendly owner, handmade desserts, tables to play. Official Wizards store.</p><div class="tags"><span class="tag tm">MTG Highlight</span><span class="tag tg">Play + hang</span><span class="tag tx">Must go</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Address:</strong> 231 Section 2, Heping East Road, Da&rsquo;an District, Taipei (2F) &mdash; an official Wizards of the Coast recognized store. TripAdvisor reviewers call it &ldquo;absolutely the best place for board games and MTG in Taipei&rdquo; with a &ldquo;cozy environment and friendly atmosphere.&rdquo; The owner speaks English, teaches MTG to newcomers, and makes handmade desserts (the tiramisu gets specific mentions). Multiple tables for playing, full card selection, board games too.</p><p>Check their events calendar for prereleases or weekly drafts around Nov 4.</p><a href="https://www.tripadvisor.com/Attraction_Review-g13811269-d7598708-Reviews-Magic_Star_Boardgame_Cafe-Da_an_Taipei.html" class="lbtn" target="_blank">&#8599; TripAdvisor reviews</a><a href="https://locator.wizards.com/store/6610" class="lbtn r" target="_blank">&#8599; Official Wizards store listing</a><div class="map-btns"><a href="https://maps.google.com/?q=Magic+Star+Board+Game+Cafe+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1591154669695-5f2a8d20c089?w=200&q=75?w=200&q=70" alt="Card Master" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Second MTG stop</p><h3 class="btitle">Card Master Games &mdash; MTG singles + sealed</h3><p class="bshort">Zhongzheng District, near Chiang Kai-shek Memorial Hall. English staff, MTG/Pok&eacute;mon/Yu-Gi-Oh singles, fair trade-in rates, spacious tables for events.</p><div class="tags"><span class="tag tm">MTG Shopping</span><span class="tag tg">Singles + Sealed</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Card Master Games (卡片主人) is near CKS Memorial Hall MRT station, 2nd floor. Multilingual staff who assist English speakers. Specializes in MTG, Pok&eacute;mon, One Piece, and Yu-Gi-Oh singles. Spacious layout with multiple event tables. Known for fair trade-in appraisals and competitive singles prices. Visit during MTG prereleases for events with solid prize structures.</p><div class="map-btns"><a href="https://maps.google.com/?q=Card+Master+Games+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-p" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1608889175123-8ee362201f81?w=200&q=75?w=200&q=70" alt="Syntrend" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late afternoon &middot; Anime + gaming mecca</p><h3 class="btitle">Syntrend Creative Park &mdash; Taipei&rsquo;s 13-floor Akihabara</h3><p class="bshort">6F: Gaming (Gundam Base, Nintendo, arcades, maid caf&eacute;). 7F: Collect (Lashinbang 2nd hand, Pop Mart, Good Smile Co, figures). Two full floors of geek paradise.</p><div class="tags"><span class="tag tg">Anime figures</span><span class="tag tg">Gaming</span><span class="tag tx">Geek HQ</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Address:</strong> No. 2, Section 3, Civic Boulevard, Zhongzheng District (MRT Zhongxiao Xinsheng Station, Exit 2). Hours: 11:00&ndash;21:30, holidays until 22:00.</p><p>This is Taipei&rsquo;s coolest mall &mdash; not a normal shopping center. <strong>6F (GAME):</strong> Gaming zone with Gundam Base, Nintendo Store, Republic of Gamers, arcades, and maid caf&eacute;s. <strong>7F (COLLECT):</strong> Lashinbang (Japan&rsquo;s top 2nd-hand collectible chain &mdash; rare finds), Pop Mart blind boxes, Good Smile Company, Asia Goal, Compass &mdash; all dedicated to figures and anime merch. Budget &#x2019;a lot&rsquo;. VR demos on 3F too.</p><a href="https://www.syntrend.com.tw/en/" class="lbtn" target="_blank">&#8599; Syntrend official site</a><div class="map-btns"><a href="https://maps.google.com/?q=Syntrend+Creative+Park+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=200&q=75?w=200&q=70" alt="Braised pork rice" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; Iconic Taiwanese comfort food</p><h3 class="btitle">Lu Rou Fan + Din Tai Fung recon</h3><p class="bshort">Braised pork rice is Taiwan&rsquo;s ultimate comfort dish. Jin Feng Lu Rou Fan near CKS Memorial Hall is the classic spot. Save Din Tai Fung for Day 5.</p><div class="tags"><span class="tag tf">Taiwanese classic</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Jin Feng Lu Rou Fan (金峰魯肉飯)</strong> is a Taipei institution for braised pork rice &mdash; five-spice pork belly cooked down into a rich, sticky sauce served over rice. Near CKS Memorial Hall, which puts it right on the way back from Syntrend. ~NT$50&ndash;70/bowl. Order a side of braised egg and pickled vegetables.</p><div class="map-btns"><a href="https://maps.google.com/?q=Jin+Feng+Lu+Rou+Fan+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T-Day 3 -->
+  <section id="td3" class="day-section">
+    <div class="day-header">
+      <div class="day-num">03</div>
+      <h2 class="day-title">Jiufen Day Trip</h2>
+      <p class="day-date">Wednesday &middot; November 5</p>
+      <div class="day-vibe">Already in your spreadsheet as &ldquo;optional&rdquo; &mdash; <strong>do this</strong>. Jiufen is the real-life Spirited Away town. Red lanterns, misty mountain teahouses, winding cobblestone alleys. Combine with Shifen for the sky lantern experience. Return to Taipei for Raohe Night Market.</div>
+    </div>
+    <div class="blocks">
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=200&q=75?w=200&q=70" alt="Jiufen lanterns" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Full day &middot; Day trip</p><h3 class="btitle">Jiufen Old Street + Shifen sky lanterns</h3><p class="bshort">The Spirited Away town &mdash; red lanterns, narrow alleys, mountain teahouses with ocean views below. Then Shifen to release sky lanterns over the valley. Do it before sunset.</p><div class="tags"><span class="tag ts">Day trip</span><span class="tag tx">Must do</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Getting there:</strong> Take a taxi or book a guided tour from Taipei (most tours on Klook/GetYourGuide combine both stops in one day, ~NT$800&ndash;1,200/person). Self-guided: bus 1062 from Zhongxiao Fuxing Station to Jiufen (~1 hr, NT$96). Or take train from Ruifang then bus up.</p><p><strong>Jiufen:</strong> Wander Jishan Street (the lantern alley) and Shuqi Road. Find a <strong>teahouse with a terrace view</strong> over the mountains and bay &mdash; A-Mei Tea House is the famous one (needs booking). Snack on: taro balls, pineapple cake, fishball soup.</p><p><strong>Shifen:</strong> Buy a sky lantern (NT$150&ndash;200), write wishes on it with the group, release it over the valley rail tracks. Genuinely one of the most memorable group experiences you can do in Taiwan.</p><a href="https://www.getyourguide.com/taipei-l192/jiufen-shifen-tour-tc200/" class="lbtn amber" target="_blank">&#8599; Jiufen + Shifen tours on GetYourGuide</a><div class="map-btns"><a href="https://maps.google.com/?q=Jiufen+Old+Street+Taiwan" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=200&q=75?w=200&q=70" alt="Raohe night market" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Evening &middot; Return to Taipei</p><h3 class="btitle">Raohe Street Night Market &mdash; famous pepper pork bun</h3><p class="bshort">The pork pepper bun at the entrance stall alone is worth the trip. One of Taipei&rsquo;s biggest and best night markets. Perfect end to a day trip day.</p><div class="tags"><span class="tag tf">Night market</span><span class="tag tx">Must eat</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>The move:</strong> The Fuzhou black pepper pork bun stall at the entrance is iconic &mdash; fresh-baked sesame buns filled with juicy pork and pepper, pulled straight from a clay oven. Queue is long but fast. Also try: oyster omelette, stinky tofu, squid, xiaolongbao, peanut ice cream rolls.</p><p>Near Raohe Street Station (MRT Songshan Station, Exit 5). Open evenings until midnight.</p><div class="map-btns"><a href="https://maps.google.com/?q=Raohe+Night+Market+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T-Day 4 -->
+  <section id="td4" class="day-section">
+    <div class="day-header">
+      <div class="day-num">04</div>
+      <h2 class="day-title">Hot Springs + Chill Day</h2>
+      <p class="day-date">Thursday &middot; November 6</p>
+      <div class="day-vibe">Already in your spreadsheet. <strong>Beitou hot springs</strong> is a short MRT ride north &mdash; geothermal spring water in an outdoor or private setting. Perfect for a relaxed mid-trip recovery day. Then Longshan Temple and Yongkang Street for the best soup dumpling browsing in the city.</div>
+    </div>
+    <div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=200&q=75?w=200&q=70" alt="Taiwanese breakfast" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Morning &middot; Casual start</p><h3 class="btitle">Taiwanese breakfast + Longshan Temple</h3><p class="bshort">Grab egg crepes or scallion pancake from a street cart. Then Longshan Temple &mdash; one of Taipei&rsquo;s most active working temples, beautiful and atmospheric.</p><div class="tags"><span class="tag tf">Breakfast</span><span class="tag ts">Temple</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Longshan Temple (龍山寺) is right near Ximending &mdash; a 5-min MRT ride. Incense, fortune sticks, ornate carvings, and genuine daily worshippers. Very active and immersive even as a visitor. Open from 6am. Free entry.</p><div class="map-btns"><a href="https://maps.google.com/?q=Longshan+Temple+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1593016577689-7f0f78cac462?w=200&q=75?w=200&q=70" alt="Beitou hot springs" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Afternoon &middot; Relax</p><h3 class="btitle">Beitou Hot Springs</h3><p class="bshort">Geothermal spring district 30 min by MRT. Public outdoor pools or private room soaking. Misty mountain setting. Perfect November weather for it.</p><div class="tags"><span class="tag tb">Hot springs</span><span class="tag tx">Relaxation</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Beitou (北投) is a hot spring resort district north of Taipei &mdash; take the MRT Red Line to Xinbeitou Station (~30 min from Ximen). Geothermal spring water ranges from sulfuric milky white to clear.</p><p><strong>Options:</strong> Millennium Hot Spring (public outdoor pools, NT$40 &mdash; seriously cheap), or rent a private room at one of the many hot spring hotels for a 2-hour soak (NT$500&ndash;1,500/room for 4 people). November weather makes outdoor soaking especially good &mdash; crisp air, hot water.</p><div class="map-btns"><a href="https://maps.google.com/?q=Beitou+Hot+Springs+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=200&q=75?w=200&q=75?w=200&q=70" alt="Yongkang Street food" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Evening &middot; Dinner</p><h3 class="btitle">Yongkang Street &mdash; Taipei&rsquo;s tastiest neighbourhood</h3><p class="bshort">The best block in Taipei for food. Ice Monster, multiple soup dumpling shops, cold noodles, beef noodle soup, bubble tea origins. Just walk and eat.</p><div class="tags"><span class="tag tf">Food street</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Yongkang Street (永康街) and the surrounding blocks are Taipei&rsquo;s best food neighborhood &mdash; dense with restaurants, cafes, and dessert shops. Go for: <strong>beef noodle soup</strong> (Taiwan&rsquo;s most iconic dish), <strong>shaved ice desserts</strong> at Ice Monster, <strong>gua bao</strong> (Taiwanese pork belly bun), and bubble tea. The original Yongkang Din Tai Fung is on this street too if you want a preview before Day 5.</p><div class="map-btns"><a href="https://maps.google.com/?q=Yongkang+Street+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=200&q=75?w=200&q=70" alt="Night bar" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Night &middot; Ximending crawl</p><h3 class="btitle">Ximending bar crawl + claw machines</h3><p class="bshort">Your neighborhood at night. Bars, claw machine arcades, street food stalls open until 2am. Low-key wind-down after the hot springs day.</p><div class="tags"><span class="tag tn">Night out</span><span class="tag tg">Arcade</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Ximending comes fully alive at night &mdash; bars, claw machine arcades (massive ones with anime merch prizes), street food carts, and photo booths. Walk the main pedestrian zone and follow whatever looks good. Mala hot pot restaurants are everywhere here for a late-night group dinner option too.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T-Day 5 -->
+  <section id="td5" class="day-section">
+    <div class="day-header">
+      <div class="day-num">05</div>
+      <h2 class="day-title">Taipei 101 + Din Tai Fung</h2>
+      <p class="day-date">Friday &middot; November 7</p>
+      <div class="day-vibe">The classic Taipei day. <strong>Hike Elephant Mountain at sunset</strong> for the iconic Taipei 101 shot, then go up the tower itself for the indoor view. <strong>Din Tai Fung</strong> for dinner &mdash; Taiwan&rsquo;s most famous restaurant, where xiao long bao (soup dumplings) became a global obsession. End with Shilin Night Market.</div>
+    </div>
+    <div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1559963110-71b394e2d507?w=200&q=75?w=200&q=70" alt="Taipei morning" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Morning &middot; Explore</p><h3 class="btitle">Huashan 1914 Creative Park</h3><p class="bshort">Old distillery turned arts park with indie shops, galleries, cafes, and weekend markets. Low-key morning wander before the big afternoon.</p><div class="tags"><span class="tag ts">Arts + culture</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Huashan 1914 Creative Park (華山1914文化創意產業園區) is a former wine distillery turned creative space with indie concept stores, art galleries, pop-up exhibitions, and cafes. Weekend events sometimes include live music and film screenings. Easy morning stop between Ximending and the 101 area.</p><div class="map-btns"><a href="https://maps.google.com/?q=Huashan+1914+Creative+Park+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1574236170878-0c1a2e68e679?w=200&q=75?w=200&q=70" alt="Elephant Mountain Taipei 101" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late afternoon &middot; Do this at sunset</p><h3 class="btitle">Elephant Mountain hike &rarr; Taipei 101</h3><p class="bshort">20-min hike to the ridge for the iconic Taipei 101 framed against the city skyline. Do it at golden hour. Then go up 101 itself for the indoor view at night.</p><div class="tags"><span class="tag ts">Hike + views</span><span class="tag tx">Iconic shot</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p><strong>Elephant Mountain (象山)</strong>: MRT Xiangshan Station (end of Red Line), Exit 2. ~20-min steep hike to the famous rock ledge. The view of Taipei 101 framed against the city and mountains is the definitive Taipei photo. Go 30&ndash;60 min before sunset for golden hour light on the tower.</p><p><strong>Taipei 101 observation deck:</strong> After the hike, head to the tower itself. Tickets NT$600 for the indoor deck on 89F. Night views of the whole city grid are spectacular. Book online to skip the queue.</p><div class="map-btns"><a href="https://maps.google.com/?q=Elephant+Mountain+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div><a href="https://www.taipei-101.com.tw/en/observatory.aspx" class="lbtn" target="_blank">&#8599; Taipei 101 Observatory tickets</a></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=200&q=75?w=200&q=70" alt="Din Tai Fung dumplings" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Dinner &middot; The Taiwan meal</p><h3 class="btitle">Din Tai Fung &mdash; The original xiao long bao</h3><p class="bshort">Where soup dumplings became a global obsession. The original Taiwan location. Order the classics: xiao long bao, shrimp fried rice, cucumber salad. Expect a wait &mdash; book ahead or pre-order.</p><div class="tags"><span class="tag tf">Michelin</span><span class="tag tx">Must eat</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Din Tai Fung (鼎泰豐) started in Taipei and the original locations here are the gold standard. The B1 branch inside Taipei 101 is the most convenient after the 101 visit, or the Xinyi Anhe branch is nearby and less chaotic.</p><p>Order: <strong>xiao long bao</strong> (pork soup dumplings &mdash; minimum 2 steamers), shrimp and pork shao mai, shrimp fried rice, cucumber in garlic, red bean dumplings for dessert. For a group of 4, budget NT$800&ndash;1,200/person. Pre-order on Klook to reduce wait time.</p><div class="map-btns"><a href="https://maps.google.com/?q=Din+Tai+Fung+Taipei+101" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&q=75?w=200&q=70" alt="Night market" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Late night &middot; Optional</p><h3 class="btitle">Shilin Night Market &mdash; Taipei&rsquo;s biggest</h3><p class="bshort">The largest night market in Taipei. Underground food court plus street stalls above. Oyster vermicelli, large fried chicken cutlet, bubble tea, games. Open until midnight+.</p><div class="tags"><span class="tag tf">Night market</span><span class="tag tn">Late night</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>MRT Red Line to Jiantan Station. Shilin is the biggest night market in Taipei &mdash; the underground food court alone has 30+ stalls. Must try: <strong>oyster vermicelli</strong>, the enormous <strong>Taiwanese fried chicken cutlet</strong> (bigger than your face), and <strong>bubble tea</strong>. Carnival games and claw machines upstairs.</p><div class="map-btns"><a href="https://maps.google.com/?q=Shilin+Night+Market+Taipei" class="lbtn amber" target="_blank">&#8599; Google Maps</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T-Day 6 -->
+  <section id="td6" class="day-section">
+    <div class="day-header">
+      <div class="day-num">06</div>
+      <h2 class="day-title">Free Day + Fly Home</h2>
+      <p class="day-date">Saturday &ndash; Sunday &middot; Nov 8&ndash;9</p>
+      <div class="day-vibe">Nov 8 is a free flex day &mdash; use it for anything you missed or want to revisit. Nov 9 is the final morning before the EVA Air flight home at 11:30am. Last soup dumplings, one final bubble tea, then airport.</div>
+    </div>
+    <div class="transport-wrap transport-taipei"><div class="transport-card">
+    <div class="transport-icon">✈️</div>
+    <p class="transport-title">Ximending → Taoyuan Airport (TPE) · EVA Air BR 008</p>
+    <div class="transport-schedule"><div class="transport-time">08:30</div><div class="transport-time-label">leave Airbnb</div></div>
+    <p class="transport-sub">Airport MRT from Taipei Main Station to TPE Terminal 1 (40 min, NT$160). EVA Air departs Terminal 1. Flight departs 11:30am — leave Airbnb by 8:30am. Check in online 24hrs before to save time. Arrives SFO 6:40am same day (crosses date line).</p>
+    <div class="transport-links"><a href="https://www.evaair.com" target="_blank">↗ EVA Air check-in</a><a href="https://maps.google.com/?q=Ximending+to+Taoyuan+Airport" target="_blank">↗ Google Maps route</a></div>
+  </div></div>
+<div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=200&q=75?w=200&q=70" alt="Free day" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Nov 8 &middot; Flex day options</p><h3 class="btitle">Overflow day &mdash; revisit favorites or explore</h3><p class="bshort">Options: more Syntrend, Dihua Street (traditional fabric and snack market), Danshui Fisherman&rsquo;s Wharf for sunset, or just eat your way through Ximending one last time.</p><div class="tags"><span class="tag ts">Free time</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>Good options for a flex day: <strong>Dihua Street (迪化街)</strong> for traditional snacks, dried goods, and fabric &mdash; great for last-minute gifts. <strong>Danshui (淡水)</strong> at the end of the MRT Red Line for Fisherman&rsquo;s Wharf sunset views. Or just go back to Syntrend &mdash; more floors to explore, more Lashinbang rare finds, and the basement food court is solid.</p></div>
+      </div>
+      <div class="block hl-amber" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=200&q=75?w=200&q=75?w=200&q=70" alt="Departure airport" onerror="this.style.background='#e0ddd7';this.style.opacity='0.5'">
+          <div class="bmain"><p class="btime">Nov 9 &middot; Fly home</p><h3 class="btitle">TPE &rarr; SFO &middot; EVA Air BR 008</h3><p class="bshort">Departs Taipei 11:30am, arrives San Francisco 6:40am (same day time travel). Leave Ximending by 8:30am latest for Taoyuan Airport.</p><div class="tags"><span class="tag ts">Departure</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><p>EVA Air BR 008 departs TPE at 11:30am, arriving SFO 6:40am (crosses the date line &mdash; same-day arrival). Leave Ximending by 8:30am. Airport MRT from Taipei Main Station: ~40 min to Taoyuan Airport Terminal 1 or 2 (EVA Air uses Terminal 1). Grab a final scallion pancake or soy milk on the way out.</p></div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end taipei -->
+
+<footer class="trip-footer">
+  Korea &amp; Taiwan 2025<span>&middot;</span>Seoul &rarr; Busan &rarr; Taipei &rarr; SFO<span>&middot;</span>Oct 27 &ndash; Nov 9
+</footer>
+
+<script>
+function showCity(city, btn) {
+  document.querySelectorAll('.city-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('#globalCityNav .city-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(city).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function showDay(city, id, btn) {
+  var view = document.getElementById(city);
+  view.querySelectorAll('.day-section').forEach(s => s.classList.remove('active'));
+  view.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  var navMap = {seoul:'seoulNav', busan:'busanNav', taipei:'taipeiNav'};
+  var nav = document.getElementById(navMap[city]);
+  window.scrollTo({top: nav.offsetTop - 48, behavior:'smooth'});
+}
+function toggleBlock(el) {
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>
