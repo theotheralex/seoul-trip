@@ -36,24 +36,42 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
   .taipei-view .bimg.img-fallback{background:linear-gradient(135deg,#f5e0c0 0%,#e8cca0 100%)}
   .map-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .map-btns .lbtn{margin-top:0}
-  .transport-card{background:var(--ink);border-radius:14px;padding:16px 20px;margin:0 40px 20px;max-width:880px;margin-left:auto;margin-right:auto;display:grid;grid-template-columns:auto 1fr auto;gap:12px 16px;align-items:center}
-  .transport-icon{font-size:24px;grid-row:span 2}
-  .transport-title{font-weight:600;font-size:14px;color:#fff;margin:0}
-  .transport-sub{font-size:12px;color:rgba(255,255,255,.6);margin:0;line-height:1.5;grid-column:2}
-  .transport-schedule{grid-column:3;grid-row:span 2;text-align:right}
-  .transport-time{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;line-height:1}
-  .transport-time-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase}
-  .transport-links{grid-column:2;display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
-  .transport-links a{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:3px 8px;text-decoration:none;transition:all .15s}
-  .transport-links a:hover{background:rgba(255,255,255,.15);color:#fff}
-  .transport-seoul .transport-card{background:#1a0a0a;border:1px solid rgba(232,64,12,.3)}
-  .transport-busan .transport-card{background:#001a14;border:1px solid rgba(10,124,92,.3)}
-  .transport-taipei .transport-card{background:#1a1000;border:1px solid rgba(180,83,9,.3)}
+  /* ── transport route cards ── */
+  .rcard{border-radius:16px;padding:20px 22px;margin:0 40px 20px;max-width:880px;margin-left:auto;margin-right:auto;color:#fff}
+  .transport-seoul .rcard{background:#1a0a0a;border:1px solid rgba(232,64,12,.35);--acc:#e8400c}
+  .transport-busan .rcard{background:#001a14;border:1px solid rgba(10,124,92,.35);--acc:#0a7c5c}
+  .transport-taipei .rcard{background:#1a1000;border:1px solid rgba(180,83,9,.35);--acc:#b45309}
+  .rhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}
+  .reyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:5px;display:flex;align-items:center;gap:7px}
+  .rtitle{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.02em;line-height:1}
+  .rsched{text-align:right;flex-shrink:0}
+  .rsched .t{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1}
+  .rsched .l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+  .route{position:relative;margin:2px 0 6px}
+  .route::before{content:'';position:absolute;left:8px;top:10px;bottom:14px;width:2px;background:linear-gradient(var(--acc),rgba(255,255,255,.15))}
+  .rstop{position:relative;padding:0 0 2px 30px;min-height:26px;display:flex;align-items:center}
+  .rstop .dot{position:absolute;left:2px;top:3px;width:15px;height:15px;border-radius:50%;background:var(--acc);border:3px solid #000;box-shadow:0 0 0 1px var(--acc)}
+  .rstop.start .dot{background:#fff;box-shadow:0 0 0 1px #fff}
+  .rstop.end .dot{width:17px;height:17px;left:1px;border-radius:50% 50% 50% 0;transform:rotate(45deg)}
+  .rstop .name{font-size:14px;font-weight:600;color:#fff}
+  .rstop .name small{font-weight:400;color:rgba(255,255,255,.55);font-size:12px}
+  .rleg{position:relative;padding:3px 0 7px 30px}
+  .rleg .pill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.82);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:4px 10px}
+  .rleg .pill b{color:#fff;font-weight:600}
+  .rleg .alt{display:block;font-size:11px;color:rgba(255,255,255,.45);margin-top:5px;padding-left:2px}
+  .rfoot{margin-top:14px;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+  .rchips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .rchip{display:flex;align-items:center;gap:7px;font-size:12px;color:#fff;background:rgba(255,255,255,.08);border-radius:8px;padding:6px 11px;line-height:1.25}
+  .rchip .k{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+  .rneed{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:12px}
+  .rneed.alt{margin-top:-6px;color:rgba(255,255,255,.45)}
+  .rneed b{color:var(--acc)}
+  .rlinks{display:flex;flex-wrap:wrap;gap:7px}
+  .rlinks a{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:5px 10px;text-decoration:none;transition:all .15s}
+  .rlinks a:hover{background:rgba(255,255,255,.14);color:#fff}
   @media(max-width:600px){
-    .transport-card{grid-template-columns:auto 1fr;margin:0 20px 16px;padding:14px 16px}
-    .transport-schedule{display:none}
-    .transport-sub{grid-column:2}
-    .transport-links{grid-column:2}
+    .rcard{margin:0 20px 16px;padding:16px 18px}
+    .rsched .t{font-size:24px}.rtitle{font-size:21px}
   }
 
 /* ── city views ── */
@@ -100,11 +118,6 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
 .day-vibe{background:var(--ink);color:rgba(255,255,255,.72);font-size:13px;border-radius:8px;padding:13px 16px;max-width:620px;line-height:1.6;margin-bottom:32px}
 .day-vibe strong{color:#fff}
 
-/* ── transit banner ── */
-.transit-wrap{max-width:960px;margin:0 auto;padding:24px 40px 0}
-.transit{background:var(--teal);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.5}
-.transit strong{color:#fff}
-.transit a{color:#7effd4;margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:11px}
 
 /* ── blocks ── */
 .blocks{max-width:960px;margin:0 auto;padding:0 40px 56px;display:flex;flex-direction:column;gap:14px}
@@ -189,7 +202,6 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
   .day-num{font-size:60px}
   .day-title{font-size:30px}
   .blocks{padding:0 20px 44px}
-  .transit-wrap{padding:20px 20px 0}
   .bimg{width:70px;height:56px}
   .lbtn{padding:10px 14px}
   .map-btns{gap:8px}
@@ -269,13 +281,31 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
       <p class="day-date">Monday &middot; October 27</p>
       <div class="day-vibe">Jet lag is real &mdash; land, drop bags, walk out the Hongdae Airbnb door and let the neighborhood do the work. <strong>First meal: Korean BBQ. Non-negotiable.</strong> Then walk off the jet lag with a Hongdae arcade crawl.</div>
     </div>
-    <div class="transport-wrap transport-seoul"><div class="transport-card">
-    <div class="transport-icon">✈️</div>
-    <p class="transport-title">Incheon Airport (ICN) → Hongdae Airbnb</p>
-    <div class="transport-schedule"><div class="transport-time">~3PM</div><div class="transport-time-label">arrive & settle</div></div>
-    <p class="transport-sub">AREX Express Train to Seoul Station (43 min, ₩9,500) → Line 2 subway to Hongik University Station (Exit 1, 10 min walk to Airbnb). Or Airport Limousine Bus 6002 direct to Hongdae (70–90 min, ₩12,000). Buy AREX tickets at airport kiosks (English UI). Get a T-Money card at any convenience store — use it on all subways and buses.</p>
-    <div class="transport-links"><a href="https://www.arex.or.kr/en/" target="_blank">↗ AREX tickets</a><a href="https://maps.google.com/?q=Incheon+Airport+to+Hongdae+Seoul" target="_blank">↗ Google Maps route</a></div>
-  </div></div>
+    <div class="transport-wrap transport-seoul"><div class="rcard">
+      <div class="rhead">
+        <div><div class="reyebrow">✈️ Arrival transfer &middot; Day 1</div><div class="rtitle">Incheon Airport &rarr; Hongdae</div></div>
+        <div class="rsched"><div class="t">~3 PM</div><div class="l">arrive &amp; settle</div></div>
+      </div>
+      <div class="route">
+        <div class="rstop start"><span class="dot"></span><span class="name">Incheon Airport <small>(ICN)</small></span></div>
+        <div class="rleg"><span class="pill">🚅 <b>AREX Express</b> &middot; 43 min &middot; ₩9,500</span></div>
+        <div class="rstop"><span class="dot"></span><span class="name">Seoul Station</span></div>
+        <div class="rleg"><span class="pill">🚇 <b>Line 2 subway</b> &middot; ~15 min</span></div>
+        <div class="rstop"><span class="dot"></span><span class="name">Hongik Univ. Station <small>Exit 1</small></span></div>
+        <div class="rleg"><span class="pill">🚶 <b>Walk</b> &middot; 10 min</span></div>
+        <div class="rstop end"><span class="dot"></span><span class="name">Hongdae Airbnb</span></div>
+      </div>
+      <div class="rfoot">
+        <div class="rchips">
+          <div class="rchip">⏱️ <span><span class="k">Total</span><br>~70 min</span></div>
+          <div class="rchip">💰 <span><span class="k">Cost</span><br>~₩9,500</span></div>
+          <div class="rchip">🎫 <span><span class="k">Ticket</span><br>AREX kiosk (English)</span></div>
+        </div>
+        <div class="rneed"><b>Need:</b> a T-Money card &mdash; buy at any convenience store, use it on every subway &amp; bus.</div>
+        <div class="rneed alt">Alt: Airport Limousine Bus 6002 direct to Hongdae &mdash; 70&ndash;90 min, ₩12,000.</div>
+        <div class="rlinks"><a href="https://www.airportrailroad.com/intro" target="_blank">↗ AREX tickets</a><a href="https://maps.google.com/?q=Incheon+Airport+to+Hongdae+Seoul" target="_blank">↗ Maps route</a></div>
+      </div>
+    </div></div>
 <div class="blocks">
       <div class="block" onclick="toggleBlock(this)">
         <div class="bh"><img class="bimg" loading="lazy" src="img/s1-0.jpg" alt="Hongdae" onerror="this.onerror=null;this.classList.add('img-fallback');this.removeAttribute('alt');this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ddd6cc%22/%3E%3C/svg%3E'">
@@ -468,10 +498,6 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
     </div>
   </div>
 
-  <div class="transit-wrap">
-    <div class="transit"><span style="font-size:22px">&#128132;</span><div><strong>KTX Seoul Station &rarr; Busan Station</strong> &middot; ~2h30m &middot; ~&#8361;59,800/person &middot; Book ahead for the morning Nov 1 departure <a href="https://rail.ninja" target="_blank">&#8599; rail.ninja</a></div></div>
-  </div>
-
   <!-- B-Day 1 -->
   <section id="bd1" class="day-section active">
     <div class="day-header">
@@ -480,13 +506,30 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
       <p class="day-date">Saturday &middot; November 1</p>
       <div class="day-vibe">KTX in from Seoul, drop bags at the Gwanganli hotel, then go straight to the coastline. <strong>The Igidae coastal trail with ocean cliff views</strong> is the perfect afternoon reset after 5 days in Seoul. Finish with seafood BBQ by the water as the Gwangan Bridge lights up.</div>
     </div>
-    <div class="transport-wrap transport-busan"><div class="transport-card">
-    <div class="transport-icon">🚄</div>
-    <p class="transport-title">Seoul Station → Busan Station · KTX</p>
-    <div class="transport-schedule"><div class="transport-time">07:15</div><div class="transport-time-label">leave Airbnb</div></div>
-    <p class="transport-sub">Book the 08:00 or 09:00 departure from Seoul Station (Line 1 or 4). Arrives Busan ~10:30–11:30am. From Busan Station take Line 2 subway toward Jangsan, exit at Gwangalli Station (Exit 3, 5 min walk to hotel). Buy KTX tickets on Korail app or rail.ninja — book 2–3 weeks ahead, seats sell out.</p>
-    <div class="transport-links"><a href="https://rail.ninja" target="_blank">↗ rail.ninja</a><a href="https://www.letskorail.com/ebizbf/EbizBfKrPassAbrdList.do" target="_blank">↗ Korail official</a></div>
-  </div></div>
+    <div class="transport-wrap transport-busan"><div class="rcard">
+      <div class="rhead">
+        <div><div class="reyebrow">🚄 KTX &middot; Seoul &rarr; Busan</div><div class="rtitle">Hongdae &rarr; Gwangalli</div></div>
+        <div class="rsched"><div class="t">07:15</div><div class="l">leave Airbnb</div></div>
+      </div>
+      <div class="route">
+        <div class="rstop start"><span class="dot"></span><span class="name">Hongdae Airbnb</span></div>
+        <div class="rleg"><span class="pill">🚇 <b>AREX / Line 2</b> &middot; Hongik Univ &rarr; Seoul Station &middot; ~15 min</span></div>
+        <div class="rstop"><span class="dot"></span><span class="name">Seoul Station <small>dep 08:00</small></span></div>
+        <div class="rleg"><span class="pill">🚄 <b>KTX</b> &middot; 2h30m &middot; ₩59,800</span><span class="alt">Arrives Busan ~10:30&ndash;11:30am</span></div>
+        <div class="rstop"><span class="dot"></span><span class="name">Busan Station</span></div>
+        <div class="rleg"><span class="pill">🚇 <b>Line 2 subway</b> &middot; to Gwangalli (Exit 3)</span><span class="alt">or taxi ~₩15,000</span></div>
+        <div class="rstop end"><span class="dot"></span><span class="name">Gwanganli Beach Hotel</span></div>
+      </div>
+      <div class="rfoot">
+        <div class="rchips">
+          <div class="rchip">⏱️ <span><span class="k">Train</span><br>2h30m</span></div>
+          <div class="rchip">💰 <span><span class="k">Cost</span><br>~₩59,800/person</span></div>
+          <div class="rchip">🎫 <span><span class="k">Booking</span><br>2&ndash;3 weeks ahead</span></div>
+        </div>
+        <div class="rneed"><b>Need:</b> leave the Airbnb by 07:15 to catch the 08:00 departure. KTX seats sell out &mdash; book ahead on Korail or rail.ninja.</div>
+        <div class="rlinks"><a href="https://rail.ninja" target="_blank">↗ rail.ninja</a><a href="https://www.letskorail.com/ebizbf/EbizBfKrPassAbrdList.do" target="_blank">↗ Korail official</a></div>
+      </div>
+    </div></div>
 <div class="blocks">
       <div class="block" onclick="toggleBlock(this)">
         <div class="bh"><img class="bimg" loading="lazy" src="img/b1-0.jpg" alt="KTX" onerror="this.onerror=null;this.classList.add('img-fallback');this.removeAttribute('alt');this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ddd6cc%22/%3E%3C/svg%3E'">
@@ -577,13 +620,26 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
       <p class="day-date">Monday &middot; November 3</p>
       <div class="day-vibe">Flight to Taipei departs Gimhae Airport (PUS) at 11:50am. Easy morning &mdash; quick beach walk, a bowl of gukbap, then airport. <strong>Next stop: Taiwan.</strong></div>
     </div>
-    <div class="transport-wrap transport-busan"><div class="transport-card">
-    <div class="transport-icon">🛫</div>
-    <p class="transport-title">Gwanganli Hotel → Gimhae Airport (PUS)</p>
-    <div class="transport-schedule"><div class="transport-time">08:45</div><div class="transport-time-label">leave hotel</div></div>
-    <p class="transport-sub">Take a taxi from the hotel (~₩25,000–35,000, 25–35 min). Or Bus 307 from Gwangalli Beach to Gimhae Airport (50 min, ₩1,800). Taxi is strongly recommended with luggage. Flight CI 189 departs 11:50am — aim to arrive at the airport by 9:30am.</p>
-    <div class="transport-links"><a href="https://maps.google.com/?q=Gwangalli+to+Gimhae+Airport" target="_blank">↗ Google Maps route</a></div>
-  </div></div>
+    <div class="transport-wrap transport-busan"><div class="rcard">
+      <div class="rhead">
+        <div><div class="reyebrow">🛫 Departure &middot; to Taipei</div><div class="rtitle">Gwanganli &rarr; Gimhae (PUS)</div></div>
+        <div class="rsched"><div class="t">08:45</div><div class="l">leave hotel</div></div>
+      </div>
+      <div class="route">
+        <div class="rstop start"><span class="dot"></span><span class="name">Gwanganli Hotel</span></div>
+        <div class="rleg"><span class="pill">🚕 <b>Taxi</b> &middot; 25&ndash;35 min &middot; ₩25,000&ndash;35,000</span><span class="alt">or Bus 307 &middot; 50 min &middot; ₩1,800</span></div>
+        <div class="rstop end"><span class="dot"></span><span class="name">Gimhae Airport <small>(PUS)</small></span></div>
+      </div>
+      <div class="rfoot">
+        <div class="rchips">
+          <div class="rchip">⏱️ <span><span class="k">Drive</span><br>~30 min</span></div>
+          <div class="rchip">✈️ <span><span class="k">Flight</span><br>CI 189 &middot; 11:50am</span></div>
+          <div class="rchip">⏰ <span><span class="k">Be there</span><br>by 9:30am</span></div>
+        </div>
+        <div class="rneed"><b>Need:</b> taxi strongly recommended with luggage &mdash; aim to be at the airport by 9:30am.</div>
+        <div class="rlinks"><a href="https://maps.google.com/?q=Gwangalli+to+Gimhae+Airport" target="_blank">↗ Maps route</a></div>
+      </div>
+    </div></div>
 <div class="blocks">
       <div class="block" onclick="toggleBlock(this)">
         <div class="bh"><img class="bimg" loading="lazy" src="img/b12-0.jpg" alt="Beach morning" onerror="this.onerror=null;this.classList.add('img-fallback');this.removeAttribute('alt');this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ddd6cc%22/%3E%3C/svg%3E'">
@@ -655,13 +711,28 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
       <p class="day-date">Monday &middot; November 3</p>
       <div class="day-vibe">You land at 1:30pm with the whole afternoon ahead. <strong>You&rsquo;re staying in Ximending</strong> &mdash; Taipei&rsquo;s Harajuku, packed with street food 24 hours, anime shops, photo booths, and night energy. First night: explore the neighborhood then hit Ningxia Night Market for the best street food in the city.</div>
     </div>
-    <div class="transport-wrap transport-taipei"><div class="transport-card">
-    <div class="transport-icon">🛬</div>
-    <p class="transport-title">Taoyuan Airport (TPE) → Ximending Airbnb</p>
-    <div class="transport-schedule"><div class="transport-time">~2:30PM</div><div class="transport-time-label">arrive Ximending</div></div>
-    <p class="transport-sub">Airport MRT (Taoyuan Airport Line) direct to Taipei Main Station (40 min, NT$160). Buy EasyCard at the airport — reloadable card for all MRT, buses, and convenience stores. From Taipei Main Station walk 10 min to Ximending or take MRT 1 stop to Ximen Station (Exit 6). Lands 1:30pm, at Airbnb by ~2:30pm.</p>
-    <div class="transport-links"><a href="https://maps.google.com/?q=Taoyuan+Airport+to+Ximending+Taipei" target="_blank">↗ Google Maps route</a><a href="https://www.tymetro.com.tw/en/" target="_blank">↗ Airport MRT</a></div>
-  </div></div>
+    <div class="transport-wrap transport-taipei"><div class="rcard">
+      <div class="rhead">
+        <div><div class="reyebrow">🛬 Arrival transfer &middot; Day 1</div><div class="rtitle">Taoyuan Airport &rarr; Ximending</div></div>
+        <div class="rsched"><div class="t">~2:30 PM</div><div class="l">arrive Ximending</div></div>
+      </div>
+      <div class="route">
+        <div class="rstop start"><span class="dot"></span><span class="name">Taoyuan Airport <small>(TPE)</small></span></div>
+        <div class="rleg"><span class="pill">🚇 <b>Airport MRT</b> &middot; 40 min &middot; NT$160</span></div>
+        <div class="rstop"><span class="dot"></span><span class="name">Taipei Main Station</span></div>
+        <div class="rleg"><span class="pill">🚶 <b>Walk</b> &middot; 10 min</span><span class="alt">or 1 MRT stop to Ximen Station (Exit 6)</span></div>
+        <div class="rstop end"><span class="dot"></span><span class="name">Ximending Airbnb</span></div>
+      </div>
+      <div class="rfoot">
+        <div class="rchips">
+          <div class="rchip">⏱️ <span><span class="k">Total</span><br>~50 min</span></div>
+          <div class="rchip">💰 <span><span class="k">Cost</span><br>NT$160</span></div>
+          <div class="rchip">🎫 <span><span class="k">Card</span><br>EasyCard at airport</span></div>
+        </div>
+        <div class="rneed"><b>Need:</b> an EasyCard from the airport &mdash; works on all MRT, buses &amp; convenience stores. Lands 1:30pm, at the Airbnb ~2:30pm.</div>
+        <div class="rlinks"><a href="https://www.tymetro.com.tw/en/" target="_blank">↗ Airport MRT</a><a href="https://maps.google.com/?q=Taoyuan+Airport+to+Ximending+Taipei" target="_blank">↗ Maps route</a></div>
+      </div>
+    </div></div>
 <div class="blocks">
       <div class="block" onclick="toggleBlock(this)">
         <div class="bh"><img class="bimg" loading="lazy" src="img/t1-0.jpg" alt="Taipei arrival" onerror="this.onerror=null;this.classList.add('img-fallback');this.removeAttribute('alt');this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ddd6cc%22/%3E%3C/svg%3E'">
@@ -836,13 +907,26 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
       <p class="day-date">Saturday &ndash; Sunday &middot; Nov 8&ndash;9</p>
       <div class="day-vibe">Nov 8 is a free flex day &mdash; use it for anything you missed or want to revisit. Nov 9 is the final morning before the EVA Air flight home at 11:30am. Last soup dumplings, one final bubble tea, then airport.</div>
     </div>
-    <div class="transport-wrap transport-taipei"><div class="transport-card">
-    <div class="transport-icon">✈️</div>
-    <p class="transport-title">Ximending → Taoyuan Airport (TPE) · EVA Air BR 008</p>
-    <div class="transport-schedule"><div class="transport-time">08:30</div><div class="transport-time-label">leave Airbnb</div></div>
-    <p class="transport-sub">Airport MRT from Taipei Main Station to TPE Terminal 1 (40 min, NT$160). EVA Air departs Terminal 1. Flight departs 11:30am — leave Airbnb by 8:30am. Check in online 24hrs before to save time. Arrives SFO 6:40am same day (crosses date line).</p>
-    <div class="transport-links"><a href="https://www.evaair.com" target="_blank">↗ EVA Air check-in</a><a href="https://maps.google.com/?q=Ximending+to+Taoyuan+Airport" target="_blank">↗ Google Maps route</a></div>
-  </div></div>
+    <div class="transport-wrap transport-taipei"><div class="rcard">
+      <div class="rhead">
+        <div><div class="reyebrow">✈️ Departure &middot; Fly home</div><div class="rtitle">Ximending &rarr; Taoyuan Airport</div></div>
+        <div class="rsched"><div class="t">08:30</div><div class="l">leave Airbnb</div></div>
+      </div>
+      <div class="route">
+        <div class="rstop start"><span class="dot"></span><span class="name">Ximending</span></div>
+        <div class="rleg"><span class="pill">🚇 <b>Airport MRT</b> &middot; Taipei Main &rarr; TPE T1 &middot; 40 min &middot; NT$160</span></div>
+        <div class="rstop end"><span class="dot"></span><span class="name">Taoyuan Airport <small>Terminal 1</small></span></div>
+      </div>
+      <div class="rfoot">
+        <div class="rchips">
+          <div class="rchip">✈️ <span><span class="k">Flight</span><br>EVA BR 008 &middot; 11:30am</span></div>
+          <div class="rchip">🛬 <span><span class="k">Arrive SFO</span><br>6:40am (same day)</span></div>
+          <div class="rchip">🎫 <span><span class="k">Check-in</span><br>online 24h ahead</span></div>
+        </div>
+        <div class="rneed"><b>Need:</b> EVA Air departs Terminal 1 &mdash; leave by 8:30am. Crosses the date line, so you land in SFO the same calendar morning.</div>
+        <div class="rlinks"><a href="https://www.evaair.com" target="_blank">↗ EVA Air check-in</a><a href="https://maps.google.com/?q=Ximending+to+Taoyuan+Airport" target="_blank">↗ Maps route</a></div>
+      </div>
+    </div></div>
 <div class="blocks">
       <div class="block" onclick="toggleBlock(this)">
         <div class="bh"><img class="bimg" loading="lazy" src="img/t20-0.jpg" alt="Free day" onerror="this.onerror=null;this.classList.add('img-fallback');this.removeAttribute('alt');this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ddd6cc%22/%3E%3C/svg%3E'">
