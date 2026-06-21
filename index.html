@@ -219,6 +219,30 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
 .daybar .dday{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .daybar .dday b{color:var(--ink)}
 .daybar .djump{margin-left:auto;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:4px 8px;background:#fff}
+
+/* ── collab: friend voting + suggestions ── */
+.bvote{display:flex;align-items:center;gap:10px;padding:0 18px 12px;flex-wrap:wrap}
+.flagbtn{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--border);background:#fff;color:var(--muted);border-radius:20px;padding:5px 11px;cursor:pointer;transition:all .15s}
+.flagbtn:hover{border-color:#c0392b;color:#c0392b}
+.flagbtn.on{background:#c0392b;border-color:#c0392b;color:#fff}
+.block.flagged{box-shadow:0 0 0 2px #c0392b inset}
+.whoflag{font-size:11px;color:var(--muted)}.whoflag b{color:#c0392b}
+.slot{border:2px dashed var(--border);border-radius:14px;padding:14px 16px}
+.slot-h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.slot-add{display:flex;gap:8px}
+.slot-add input{flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px;background:#fff}
+.slot-add button{border:none;background:var(--ink);color:#fff;border-radius:8px;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;cursor:pointer;flex-shrink:0}
+.sugs{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.sug{font-size:13px;color:#333;background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 11px;display:flex;gap:8px;align-items:baseline}
+.sug .nm{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--teal);text-transform:uppercase;flex-shrink:0}
+.sug-empty{font-size:12px;color:var(--muted);font-style:italic}
+.pulse-card{background:#11212e;color:#fff;border-radius:12px;padding:12px 15px;margin:14px 0 0}
+.pulse-h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7fd4bb;display:flex;gap:8px;align-items:center;cursor:pointer}
+.pulse-body{margin-top:2px}
+.pulse-row{font-size:13px;color:rgba(255,255,255,.85);margin-top:7px}.pulse-row b{color:#fff}.pulse-row .f{color:#ff9b8a}
+.pulse-empty{font-size:12px;color:rgba(255,255,255,.45);margin-top:6px}
+.idchip{position:fixed;bottom:16px;right:16px;z-index:120;background:var(--ink);color:#fff;border:none;border-radius:24px;padding:10px 15px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.03em;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.idchip b{color:#7fd4bb}
 </style>
 </head>
 <body>
@@ -1047,5 +1071,130 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lb'
   <div class="lb-cap" id="lbCap"></div>
   <div class="lb-count" id="lbCount"></div>
 </div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+/* ====== FRIEND SUGGESTIONS + VOTING ======================================
+   To make this LIVE for everyone, create a free Firebase project, enable
+   Realtime Database, and paste your web config below (replace the PASTE_*
+   values). Until configured it still works per-device (saved in your own
+   browser only, not shared). Setup steps are in the chat. ================== */
+var FIREBASE_CONFIG = {
+  apiKey: "PASTE_API_KEY",
+  authDomain: "PASTE_PROJECT.firebaseapp.com",
+  databaseURL: "https://PASTE_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "PASTE_PROJECT"
+};
+/*COLLAB-START*/
+(function(){
+  var REF=null, DATA={flags:{},sugs:{}}, LOCAL=false;
+  function persist(){localStorage.setItem('collabData',JSON.stringify(DATA));}
+  function key(n){return (n+'').replace(/[.#$\[\]\/]/g,'_').slice(0,40);}
+  function me(){return (localStorage.getItem('collabName')||'').trim();}
+  function setName(){var n=(prompt('Your name (so picks are tagged to you):',me())||'').trim();if(n)localStorage.setItem('collabName',n);renderChip();renderAll();return me();}
+  function ensureName(){return me()||setName();}
+  function esc(s){return (s+'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  function start(){
+    if(FIREBASE_CONFIG.apiKey.indexOf('PASTE')<0){
+      try{
+        firebase.initializeApp(FIREBASE_CONFIG);
+        REF=firebase.database().ref('seoul-trip');
+        REF.on('value',function(snap){var v=snap.val()||{};DATA={flags:v.flags||{},sugs:v.sugs||{}};renderAll();});
+        return;
+      }catch(e){console.warn('Firebase init failed — local mode',e);}
+    }
+    LOCAL=true;
+    DATA=JSON.parse(localStorage.getItem('collabData')||'{"flags":{},"sugs":{}}');
+  }
+  function toggleFlag(id){
+    var n=ensureName(); if(!n)return;
+    var has=DATA.flags[id]&&DATA.flags[id][key(n)];
+    if(REF){REF.child('flags/'+id+'/'+key(n)).set(has?null:n);}
+    else{DATA.flags[id]=DATA.flags[id]||{};if(has)delete DATA.flags[id][key(n)];else DATA.flags[id][key(n)]=n;persist();renderAll();}
+  }
+  function addSug(slot,input){
+    var n=ensureName(); if(!n)return; var t=(input.value||'').trim(); if(!t)return;
+    var item={nm:n,text:t,ts:Date.now()};
+    if(REF){REF.child('sugs/'+slot).push(item);}
+    else{DATA.sugs[slot]=DATA.sugs[slot]||{};DATA.sugs[slot]['k'+item.ts]=item;persist();renderAll();}
+    input.value='';
+  }
+  window._cob={toggleFlag:toggleFlag,addSug:addSug};
+
+  function bucket(bt){bt=(bt||'').toLowerCase();
+    if(/night|dinner|evening|sunset/.test(bt))return'eve';
+    if(/afternoon|lunch|midday/.test(bt))return'pm';
+    if(/morning|breakfast|early|check-in|arrive|travel/.test(bt))return'am';
+    return'pm';}
+  var BL={am:'Morning',pm:'Afternoon',eve:'Evening'};
+  function cardId(b){var im=b.querySelector('.bimg');if(!im)return null;var m=(im.getAttribute('src')||'').match(/img\/([a-z]+\d+)-0\./);return m?m[1]:null;}
+
+  function buildDay(sec){
+    var did=sec.id;
+    var blocks=[].slice.call(sec.querySelectorAll('.blocks > .block'));
+    blocks.forEach(function(b){
+      var id=cardId(b); if(!id)return; b.setAttribute('data-cid',id);
+      if(!b.querySelector('.bvote')){
+        var v=document.createElement('div'); v.className='bvote';
+        v.innerHTML='<button class="flagbtn" onclick="event.stopPropagation();_cob.toggleFlag(\''+id+'\')">&#128078; Not feeling it <span class="cnt"></span></button><span class="whoflag"></span>';
+        var tog=b.querySelector('.btoggle'); b.insertBefore(v,tog);
+      }
+    });
+    var lastOf={};
+    blocks.forEach(function(b){lastOf[bucket((b.querySelector('.btime')||{}).textContent)]=b;});
+    ['am','pm','eve'].forEach(function(bk){
+      var after=lastOf[bk]; if(!after)return;
+      var sid=did+'-'+bk;
+      if(sec.querySelector('[data-slot="'+sid+'"]'))return;
+      var slot=document.createElement('div'); slot.className='slot'; slot.setAttribute('data-slot',sid);
+      slot.innerHTML='<div class="slot-h">&#10133; '+BL[bk]+' &mdash; up for suggestions</div><div class="slot-add"><input placeholder="suggest a place or idea…" onkeydown="if(event.key===\'Enter\')_cob.addSug(\''+sid+'\',this)"><button onclick="_cob.addSug(\''+sid+'\',this.previousElementSibling)">Add</button></div><div class="sugs"></div>';
+      after.parentNode.insertBefore(slot, after.nextSibling);
+    });
+    var hdr=sec.querySelector('.day-header');
+    if(hdr && !hdr.querySelector('.pulse-card')){
+      var p=document.createElement('div'); p.className='pulse-card';
+      p.innerHTML='<div class="pulse-h">&#128202; Day Pulse &mdash; group feedback &#9662;</div><div class="pulse-body"></div>';
+      p.querySelector('.pulse-h').onclick=function(){var bd=p.querySelector('.pulse-body');bd.style.display=bd.style.display==='none'?'':'none';};
+      hdr.appendChild(p);
+    }
+  }
+  function renderAll(){
+    document.querySelectorAll('.block[data-cid]').forEach(function(b){
+      var id=b.getAttribute('data-cid'); var fl=DATA.flags[id]||{}; var names=Object.keys(fl).map(function(k){return fl[k];});
+      var cnt=b.querySelector('.cnt'); if(!cnt)return;
+      cnt.textContent=names.length?('· '+names.length):'';
+      b.querySelector('.flagbtn').classList.toggle('on',fl[key(me())]!=null);
+      b.classList.toggle('flagged',names.length>0);
+      b.querySelector('.whoflag').innerHTML=names.length?('Wants to swap: <b>'+esc(names.join(', '))+'</b>'):'';
+    });
+    document.querySelectorAll('.slot[data-slot]').forEach(function(sl){
+      var sid=sl.getAttribute('data-slot'); var o=DATA.sugs[sid]||{};
+      var list=Object.keys(o).map(function(k){return o[k];}).sort(function(a,b){return a.ts-b.ts;});
+      sl.querySelector('.sugs').innerHTML=list.length?list.map(function(x){return '<div class="sug"><span class="nm">'+esc(x.nm)+'</span><span>'+esc(x.text)+'</span></div>';}).join(''):'<div class="sug-empty">No suggestions yet.</div>';
+    });
+    document.querySelectorAll('.day-section').forEach(function(sec){
+      var p=sec.querySelector('.pulse-body'); if(!p)return;
+      var flagged=[].slice.call(sec.querySelectorAll('.block[data-cid]')).filter(function(b){return Object.keys(DATA.flags[b.getAttribute('data-cid')]||{}).length;});
+      var sugN=[].slice.call(sec.querySelectorAll('.slot[data-slot]')).reduce(function(n,s){return n+Object.keys(DATA.sugs[s.getAttribute('data-slot')]||{}).length;},0);
+      var rows='';
+      if(flagged.length)rows+='<div class="pulse-row"><span class="f">&#9873; Wants to swap:</span> '+flagged.map(function(b){return '<b>'+esc(b.querySelector('.btitle').textContent)+'</b> ('+Object.keys(DATA.flags[b.getAttribute('data-cid')]).length+')';}).join(', ')+'</div>';
+      if(sugN)rows+='<div class="pulse-row">&#128161; <b>'+sugN+'</b> suggestion(s) in the open slots</div>';
+      p.innerHTML=rows||'<div class="pulse-empty">All clear &mdash; nothing flagged, no suggestions yet.</div>';
+    });
+    renderChip();
+  }
+  function renderChip(){var c=document.getElementById('idchip');if(c)c.innerHTML='&#128100; '+(me()?('You: <b>'+esc(me())+'</b>'):'Tap to add your name');}
+
+  document.addEventListener('DOMContentLoaded',function(){
+    start();
+    document.querySelectorAll('.day-section').forEach(buildDay);
+    var chip=document.createElement('button'); chip.id='idchip'; chip.className='idchip'; chip.onclick=setName;
+    document.body.appendChild(chip);
+    renderChip(); renderAll();
+  });
+})();
+/*COLLAB-END*/
+</script>
 </body>
 </html>
