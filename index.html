@@ -195,6 +195,13 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
 /* ── footer ── */
 .trip-footer{background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:28px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em}
 .trip-footer span{color:rgba(255,255,255,.15);margin:0 8px}
+/* ── getting-around reference block (quiet, end of each city) ── */
+.ga{max-width:960px;margin:40px auto 0;padding:22px 40px 8px;border-top:1px solid var(--border)}
+.ga-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:15px}
+.ga-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 36px}
+.ga-item{display:flex;gap:9px;font-size:12px;line-height:1.5;color:#6a6862}
+.ga-item .ti{font-size:14px;color:var(--muted);flex-shrink:0;position:relative;top:1px}
+.ga-item b{color:var(--ink);font-weight:600;flex-shrink:0;min-width:72px}
 
 @media(max-width:600px){
   .city-btn{font-size:14px}
@@ -208,6 +215,8 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
   .map-btns{gap:8px}
   .daybar{padding:0 14px}
   .daybar .djump{display:none}
+  .ga{padding:20px 20px 4px}
+  .ga-grid{grid-template-columns:1fr;gap:9px}
 }
 /* ── sticky day-context bar ── */
 .daybar{position:fixed;top:48px;left:0;right:0;z-index:190;height:40px;display:flex;align-items:center;gap:9px;padding:0 16px;background:rgba(247,245,240,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--border);transform:translateY(-120%);transition:transform .28s ease;cursor:pointer}
@@ -297,18 +306,6 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
         <span class="hero-pill">MTG &middot; Anime &middot; K-Food</span>
         <span class="hero-pill">Arcade &middot; PC Bang</span>
       </div>
-    </div>
-  </div>
-
-  <div class="cal-wrap getaround">
-    <p class="cal-label">Getting around</p>
-    <div class="qfacts">
-      <div class="qfact"><span class="ic"><i class="ti ti-train"></i></span><div><div class="k">Subway</div><div class="v">Cheap, fast, English signage. Covers every stop you&rsquo;ve planned. Runs ~5:30am&ndash;midnight.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-credit-card"></i></span><div><div class="k">T-money card</div><div class="v">Buy &amp; refill at any CU or GS25. Tap on every subway and bus &mdash; works in Busan too.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-car"></i></span><div><div class="k">Kakao T</div><div class="v">The default taxi app &mdash; hails metered cabs, cheap. Set it up before you land if you can.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-car"></i></span><div><div class="k">Uber</div><div class="v">English-friendly backup, but only hails licensed taxis (no UberX in Korea). Same metered fare.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-map-pin"></i></span><div><div class="k">Maps</div><div class="v">Use Naver Maps or KakaoMap. Google Maps barely works for directions in Korea.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-moon"></i></span><div><div class="k">Late nights</div><div class="v">Last trains run ~midnight. Cab home from the Hongdae and Halloween nights.</div></div></div>
     </div>
   </div>
 
@@ -549,6 +546,18 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
       </div>
     </div>
   </section>
+
+  <div class="ga">
+    <p class="ga-label">Getting around &middot; Seoul</p>
+    <div class="ga-grid">
+      <div class="ga-item"><i class="ti ti-train"></i><span><b>Subway</b> Cheap, fast, English signage. Runs ~5:30am&ndash;midnight.</span></div>
+      <div class="ga-item"><i class="ti ti-credit-card"></i><span><b>T-money</b> Buy/refill at any CU or GS25. Works in Busan too.</span></div>
+      <div class="ga-item"><i class="ti ti-car"></i><span><b>Kakao T</b> The default taxi app &mdash; metered, cheap. Set up before you land.</span></div>
+      <div class="ga-item"><i class="ti ti-car"></i><span><b>Uber</b> English backup, but licensed taxis only (no UberX in Korea).</span></div>
+      <div class="ga-item"><i class="ti ti-map-pin"></i><span><b>Maps</b> Naver Maps or KakaoMap &mdash; Google Maps barely works here.</span></div>
+      <div class="ga-item"><i class="ti ti-moon"></i><span><b>Late night</b> Last trains ~midnight; cab home from Hongdae.</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══════ BUSAN ═══════ -->
@@ -563,18 +572,6 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
         <span class="hero-pill">Seafood &middot; Coastal walks &middot; Temples</span>
         <span class="hero-pill">~62&deg;F days &middot; Crisp &amp; clear</span>
       </div>
-    </div>
-  </div>
-
-  <div class="cal-wrap getaround">
-    <p class="cal-label">Getting around</p>
-    <div class="qfacts">
-      <div class="qfact"><span class="ic"><i class="ti ti-train"></i></span><div><div class="k">Subway</div><div class="v">Clean and simple, English signage. Line 2 runs the coast past Gwangalli &amp; Haeundae. ~5:30am&ndash;midnight.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-credit-card"></i></span><div><div class="k">T-money card</div><div class="v">Same card as Seoul &mdash; keep using it. Refill at any CU or GS25 for subway and bus.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-car"></i></span><div><div class="k">Kakao T</div><div class="v">The default taxi app &mdash; hails metered cabs, cheap. Works the same as in Seoul.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-car"></i></span><div><div class="k">Uber</div><div class="v">English-friendly backup, but only hails licensed taxis (no UberX in Korea). Same metered fare.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-map-pin"></i></span><div><div class="k">Maps</div><div class="v">Use Naver Maps or KakaoMap. Google Maps barely works for directions in Korea.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-moon"></i></span><div><div class="k">Late nights</div><div class="v">Last trains run ~midnight. Cab back to Gwangalli after late seafood dinners.</div></div></div>
     </div>
   </div>
 
@@ -765,6 +762,18 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
         <div class="bdetail"><div class="dsec-label">Quick facts</div><div class="qfacts"><div class="qfact"><span class="ic"><i class="ti ti-clock"></i></span><div><div class="k">Plan for</div><div class="v">1.5–2 hours before the 11:50am flight</div></div></div><div class="qfact"><span class="ic"><i class="ti ti-clock"></i></span><div><div class="k">Hours</div><div class="v">Open from 7am</div></div></div><div class="qfact"><span class="ic"><i class="ti ti-route"></i></span><div><div class="k">Getting there</div><div class="v">Taxi from Gwanganli to Gimhae (PUS) ~₩25,000–35,000, ~30 min</div></div></div><div class="qfact"><span class="ic"><i class="ti ti-bulb"></i></span><div><div class="k">Good to know</div><div class="v">Pork soup for breakfast is a Busan institution</div></div></div></div><div class="dsec-label">Highlights</div><ul class="dhi"><li>Classic Busan morning meal</li><li><strong>Pork bone broth</strong>, rice, chives, dipping sauce</li><li>Perfect send-off before the airport</li></ul><div class="dsec-label">The rundown</div><p>Pork soup for breakfast is a Busan institution. Budget 1.5&ndash;2 hours before the 11:50am flight. <strong>Airport:</strong> Gimhae International (PUS). Taxi from Gwanganli: ~&#8361;25,000&ndash;35,000, ~30 min.</p><div class="dsec-label">Photos</div><div class="bgallery"><figure onclick="openLB(event,this)"><img loading="lazy" src="img/b13-1.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Pork bone broth</figcaption></figure><figure onclick="openLB(event,this)"><img loading="lazy" src="img/b13-2.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>With chives</figcaption></figure><figure onclick="openLB(event,this)"><img loading="lazy" src="img/b13-3.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Busan send-off</figcaption></figure></div><div class="dsec-label">Find it</div><div class="map-btns"><a href="https://map.naver.com/v5/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" class="lbtn t" target="_blank">&#8599; Naver Maps</a><a href="https://maps.google.com/?q=Gimhae+International+Airport+Busan" class="lbtn " target="_blank">&#8599; Google Maps</a></div></div></div>
       </div>
   </section>
+
+  <div class="ga">
+    <p class="ga-label">Getting around &middot; Busan</p>
+    <div class="ga-grid">
+      <div class="ga-item"><i class="ti ti-train"></i><span><b>Subway</b> Clean and simple. Line 2 runs the coast past Gwangalli &amp; Haeundae.</span></div>
+      <div class="ga-item"><i class="ti ti-credit-card"></i><span><b>T-money</b> Same card as Seoul &mdash; keep using it. Refill at any CU or GS25.</span></div>
+      <div class="ga-item"><i class="ti ti-car"></i><span><b>Kakao T</b> The default taxi app &mdash; metered, cheap. Same as Seoul.</span></div>
+      <div class="ga-item"><i class="ti ti-car"></i><span><b>Uber</b> English backup, but licensed taxis only (no UberX in Korea).</span></div>
+      <div class="ga-item"><i class="ti ti-map-pin"></i><span><b>Maps</b> Naver Maps or KakaoMap &mdash; Google Maps barely works here.</span></div>
+      <div class="ga-item"><i class="ti ti-moon"></i><span><b>Late night</b> Last trains ~midnight; cab back to Gwangalli.</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══════ TAIPEI ═══════ -->
@@ -779,18 +788,6 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
         <span class="hero-pill">MTG &middot; Anime &middot; Night Markets</span>
         <span class="hero-pill">Food &middot; Hot Springs &middot; Jiufen</span>
       </div>
-    </div>
-  </div>
-
-  <div class="cal-wrap getaround">
-    <p class="cal-label">Getting around</p>
-    <div class="qfacts">
-      <div class="qfact"><span class="ic"><i class="ti ti-train"></i></span><div><div class="k">MRT</div><div class="v">World-class metro &mdash; clean, cheap, English everywhere. Covers nearly every stop you&rsquo;ve planned.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-credit-card"></i></span><div><div class="k">EasyCard</div><div class="v">Buy &amp; refill at any 7-Eleven or FamilyMart. Taps MRT, buses, YouBike, even some shops.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-car"></i></span><div><div class="k">Uber</div><div class="v">Works properly here &mdash; real UberX, reliable, widely used. A solid default, not just a backup.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-car"></i></span><div><div class="k">Taxis</div><div class="v">Yellow cabs everywhere, metered and cheap. Hail on the street or through the app.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-map-pin"></i></span><div><div class="k">Maps</div><div class="v">Google Maps works great in Taiwan &mdash; full transit and walking directions.</div></div></div>
-      <div class="qfact"><span class="ic"><i class="ti ti-bike"></i></span><div><div class="k">YouBike</div><div class="v">Cheap bike share all over the city, unlocked with your EasyCard. Great along the Riverside.</div></div></div>
     </div>
   </div>
 
@@ -1054,6 +1051,18 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
       </div>
     </div>
   </section>
+
+  <div class="ga">
+    <p class="ga-label">Getting around &middot; Taipei</p>
+    <div class="ga-grid">
+      <div class="ga-item"><i class="ti ti-train"></i><span><b>MRT</b> World-class metro &mdash; clean, cheap, English everywhere.</span></div>
+      <div class="ga-item"><i class="ti ti-credit-card"></i><span><b>EasyCard</b> Buy/refill at any 7-Eleven or FamilyMart. Taps MRT, buses, YouBike.</span></div>
+      <div class="ga-item"><i class="ti ti-car"></i><span><b>Uber</b> Works properly here &mdash; real UberX, reliable. A solid default.</span></div>
+      <div class="ga-item"><i class="ti ti-car"></i><span><b>Taxis</b> Yellow cabs everywhere, metered and cheap. Hail on the street.</span></div>
+      <div class="ga-item"><i class="ti ti-map-pin"></i><span><b>Maps</b> Google Maps works great in Taiwan &mdash; full transit directions.</span></div>
+      <div class="ga-item"><i class="ti ti-bike"></i><span><b>YouBike</b> Cheap bike share citywide, unlocked with your EasyCard.</span></div>
+    </div>
+  </div>
 
 </div><!-- end taipei -->
 
