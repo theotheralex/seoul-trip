@@ -1223,6 +1223,7 @@ function lbStep(e,d){e.stopPropagation();lbIdx=(lbIdx+d+lbList.length)%lbList.le
 function closeLB(e){if(e)e.stopPropagation();document.getElementById('lb').classList.remove('open');}
 document.addEventListener('keydown',function(e){if(!document.getElementById('lb').classList.contains('open'))return;if(e.key==='Escape')closeLB();else if(e.key==='ArrowRight')lbStep(e,1);else if(e.key==='ArrowLeft')lbStep(e,-1);});
 </script>
+<footer style="text-align:center;padding:26px 18px;font-size:11px;color:var(--muted);line-height:1.7">Landmark photos via Wikimedia Commons &mdash; N Seoul Tower &amp; Lotte World castle (CC0); Lotte World Tower by Ox1997cow (CC BY 3.0); Lotte World coaster by Jeremy Thompson (CC BY 2.0).</footer>
 <div class="lb" id="lb" onclick="closeLB(event)">
   <span class="lb-close" onclick="closeLB(event)">&times;</span>
   <span class="lb-nav lb-prev" onclick="lbStep(event,-1)">&#8249;</span>
