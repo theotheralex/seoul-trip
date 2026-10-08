@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Korea Trip 2026</title>
+<meta name="theme-color" content="#0e0e0e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KR·TW 2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -230,53 +237,20 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
 .daybar .dday b{color:var(--ink)}
 .daybar .djump{margin-left:auto;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:4px 8px;background:#fff}
 
-/* ── collab: friend voting + suggestions ── */
-.bvote{display:flex;align-items:center;gap:10px;padding:0 18px 12px;flex-wrap:wrap}
-.flagbtn{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--border);background:#f3efe8;color:#7a7368;border-radius:20px;padding:6px 13px;cursor:pointer;transition:all .15s}
-.flagbtn .ti{font-size:14px}
-.flagbtn:hover{background:#fbe9e7;border-color:#c0392b;color:#c0392b}
-.flagbtn.on{background:#c0392b;border-color:#c0392b;color:#fff}
-.block.flagged{box-shadow:0 0 0 2px #c0392b inset}
-.whoflag{font-size:11px;color:var(--muted)}.whoflag b{color:#c0392b}
-.slot{border:2px dashed var(--border);border-radius:14px;padding:14px 16px}
-.slot-h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.slot-add{display:flex;gap:8px;flex-wrap:wrap}
-.slot-add .s-text{flex:1 1 220px;min-width:0;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px;background:#fff}
-.slot-add .s-place{flex:1 1 150px;min-width:0;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:12px;background:#fff}
-.slot-add button{border:none;background:var(--ink);color:#fff;border-radius:8px;padding:9px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;cursor:pointer;flex-shrink:0}
-.sugs{margin-top:10px;display:flex;flex-direction:column;gap:6px}
-.sug{font-size:13px;color:#333;background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 11px;display:flex;gap:9px;align-items:center}
-.sug .nm{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--teal);text-transform:uppercase;flex-shrink:0}
-.sug .sug-body{flex:1;min-width:0;line-height:1.4}
-.sug .sug-link{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--purple);text-decoration:none;margin-left:6px;white-space:nowrap}
-.sug .sug-area{color:var(--muted);font-size:12px;margin-left:4px}
-.likebtn{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;border:1px solid var(--border);background:#fff;color:var(--muted);border-radius:20px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;transition:all .15s}
-.likebtn:hover{border-color:var(--teal);color:var(--teal)}
-.likebtn.on{background:var(--teal);border-color:var(--teal);color:#fff}
-.likebtn svg{display:block}
-.delbtn{flex-shrink:0;border:none;background:none;color:#bbb;font-size:18px;line-height:1;cursor:pointer;padding:0 2px}
-.delbtn:hover{color:#c0392b}
-.sug-empty{font-size:12px;color:var(--muted);font-style:italic}
-.pulse-card{background:#11212e;color:#fff;border-radius:12px;padding:13px 16px;margin:30px 0 4px}
-.pulse-h{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7fd4bb;display:flex;gap:7px;align-items:center;cursor:pointer}
-.pulse-h svg{stroke:#7fd4bb}
-.pulse-body{margin-top:2px}
-.pulse-row{font-size:13px;color:rgba(255,255,255,.85);margin-top:7px}.pulse-row b{color:#fff}.pulse-row .f{color:#ff9b8a}
-.pulse-empty{font-size:12px;color:rgba(255,255,255,.45);margin-top:6px}
-.idchip{position:fixed;bottom:16px;right:16px;z-index:120;display:flex;border-radius:24px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.25);font-family:'JetBrains Mono',monospace;font-size:11px}
-.idchip button{border:none;background:var(--ink);color:#fff;padding:10px 14px;cursor:pointer;font:inherit;letter-spacing:.03em}
-.idchip .id-name b{color:#7fd4bb}
-.idchip .id-clear{background:#2a1414;color:#ff9b8a;border-left:1px solid rgba(255,255,255,.12);display:none}
-.idchip.has-flags .id-clear{display:block}
-.qfact{align-items:center}
-.qfact .ic{color:var(--muted);display:flex;align-items:center}
-.qfact .ic svg{display:block}
-.rchip svg,.reyebrow svg{display:none}
-.ti{line-height:1;vertical-align:-2px}
-.qfact .ic{display:flex;align-items:center}.qfact .ic .ti{font-size:15px;color:var(--muted)}
-.pill .ti{font-size:13px;margin-right:3px;opacity:.8;vertical-align:-1px}
-.reyebrow .ti{font-size:12px;margin-right:4px;vertical-align:-1px}
-.likebtn .ti{font-size:14px}.pulse-h .ti{font-size:12px;color:#7fd4bb}
+/* ── PWA / mobile app feel ── */
+.day-section.active{animation:dayIn .28s ease both}
+@keyframes dayIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@media(max-width:600px){
+  .city-nav{top:auto;bottom:0;height:auto;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 16px rgba(0,0,0,.3);border-top:1px solid rgba(255,255,255,.08)}
+  .city-btn{padding:13px 0;font-size:15px;border-bottom:none;border-top:3px solid transparent}
+  .city-btn.seoul.active{border-top-color:var(--red);border-bottom-color:transparent}
+  .city-btn.busan.active{border-top-color:var(--teal);border-bottom-color:transparent}
+  .city-btn.taipei.active{border-top-color:#b45309;border-bottom-color:transparent}
+  body{padding-bottom:calc(54px + env(safe-area-inset-bottom))}
+  .lbtn{padding:10px 14px}
+  .btoggle{padding:12px 16px}
+  .day-btn{min-width:62px}
+}
 </style>
 </head>
 <body>
@@ -1225,189 +1199,25 @@ document.addEventListener('keydown',function(e){if(!document.getElementById('lb'
   <div class="lb-cap" id="lbCap"></div>
   <div class="lb-count" id="lbCount"></div>
 </div>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-/* ====== FRIEND SUGGESTIONS + VOTING ======================================
-   To make this LIVE for everyone, create a free Firebase project, enable
-   Realtime Database, and paste your web config below (replace the PASTE_*
-   values). Until configured it still works per-device (saved in your own
-   browser only, not shared). Setup steps are in the chat. ================== */
-var FIREBASE_CONFIG = {
-  databaseURL: "https://seoul-trip-bc874-default-rtdb.firebaseio.com",
-  projectId: "seoul-trip-bc874",
-  authDomain: "seoul-trip-bc874.firebaseapp.com"
-};
-/*COLLAB-START*/
-(function(){
-  var REF=null, DATA={flags:{},sugs:{}};
-  var CHU='<i class="ti ti-chevron-up"></i>';
-  var CHD='<i class="ti ti-chevron-down"></i>';
-  function persist(){localStorage.setItem('collabData',JSON.stringify(DATA));}
-  function key(n){return (n+'').replace(/[.#$\[\]\/]/g,'_').slice(0,40);}
-  function me(){return (localStorage.getItem('collabName')||'').trim();}
-  function setName(){var n=(prompt('Your name (so picks are tagged to you):',me())||'').trim();if(n)localStorage.setItem('collabName',n);renderChip();renderAll();return me();}
-  function ensureName(){return me()||setName();}
-  function esc(s){return (s+'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-
-  function start(){
-    if(FIREBASE_CONFIG.databaseURL && FIREBASE_CONFIG.databaseURL.indexOf('PASTE')<0){
-      try{
-        firebase.initializeApp(FIREBASE_CONFIG);
-        REF=firebase.database().ref('seoul-trip');
-        REF.on('value',function(snap){var v=snap.val()||{};DATA={flags:v.flags||{},sugs:v.sugs||{}};renderAll();});
-        return;
-      }catch(e){console.warn('Firebase init failed — local mode',e);}
-    }
-    DATA=JSON.parse(localStorage.getItem('collabData')||'{"flags":{},"sugs":{}}');
-  }
-
-  function toggleFlag(id){
-    var n=ensureName(); if(!n)return;
-    var has=DATA.flags[id]&&DATA.flags[id][key(n)];
-    if(REF){REF.child('flags/'+id+'/'+key(n)).set(has?null:n);}
-    else{DATA.flags[id]=DATA.flags[id]||{};if(has)delete DATA.flags[id][key(n)];else DATA.flags[id][key(n)]=n;persist();renderAll();}
-  }
-  function clearMyFlags(){
-    var n=me(); if(!n)return; if(!confirm('Remove all of your flags?'))return;
-    Object.keys(DATA.flags).forEach(function(id){
-      if(DATA.flags[id]&&DATA.flags[id][key(n)]){
-        if(REF){REF.child('flags/'+id+'/'+key(n)).remove();}
-        else{delete DATA.flags[id][key(n)];}
-      }
-    });
-    if(!REF){persist();renderAll();}
-  }
-  function addSug(slot,el){
-    var n=ensureName(); if(!n)return;
-    var box=el.closest('.slot-add');
-    var t=(box.querySelector('.s-text').value||'').trim(); if(!t)return;
-    var place=(box.querySelector('.s-place').value||'').trim();
-    var item={nm:n,text:t,place:place,ts:Date.now(),likes:{}};
-    if(REF){REF.child('sugs/'+slot).push(item);}
-    else{DATA.sugs[slot]=DATA.sugs[slot]||{};DATA.sugs[slot]['k'+item.ts]=item;persist();renderAll();}
-    box.querySelector('.s-text').value=''; box.querySelector('.s-place').value='';
-  }
-  function likeSug(slot,id){
-    var n=ensureName(); if(!n)return;
-    var sg=(DATA.sugs[slot]||{})[id]; if(!sg)return;
-    var has=sg.likes&&sg.likes[key(n)];
-    if(REF){REF.child('sugs/'+slot+'/'+id+'/likes/'+key(n)).set(has?null:n);}
-    else{sg.likes=sg.likes||{};if(has)delete sg.likes[key(n)];else sg.likes[key(n)]=n;persist();renderAll();}
-  }
-  function delSug(slot,id){
-    if(!confirm('Delete this suggestion?'))return;
-    if(REF){REF.child('sugs/'+slot+'/'+id).remove();}
-    else{if(DATA.sugs[slot])delete DATA.sugs[slot][id];persist();renderAll();}
-  }
-  window._cob={toggleFlag:toggleFlag,addSug:addSug,likeSug:likeSug,delSug:delSug,clearMyFlags:clearMyFlags,setName:setName};
-
-  function bucket(bt){bt=(bt||'').toLowerCase();
-    if(/night|dinner|evening|sunset/.test(bt))return'eve';
-    if(/afternoon|lunch|midday/.test(bt))return'pm';
-    if(/morning|breakfast|early|check-in|arrive|travel/.test(bt))return'am';
-    return'pm';}
-  var BL={am:'Morning',pm:'Afternoon',eve:'Evening'};
-  function cardId(b){var im=b.querySelector('.bimg');if(!im)return null;var m=(im.getAttribute('src')||'').match(/img\/([a-z]+\d+)-0\./);return m?m[1]:null;}
-
-  function buildDay(sec){
-    var did=sec.id;
-    var blocks=[].slice.call(sec.querySelectorAll('.blocks > .block'));
-    blocks.forEach(function(b){
-      var id=cardId(b); if(!id)return; b.setAttribute('data-cid',id);
-      if(!b.querySelector('.bvote')){
-        var v=document.createElement('div'); v.className='bvote';
-        v.innerHTML='<button class="flagbtn" onclick="event.stopPropagation();_cob.toggleFlag(\''+id+'\')"><i class="ti ti-thumb-down"></i> Not feeling it <span class="cnt"></span></button><span class="whoflag"></span>';
-        b.insertBefore(v,b.querySelector('.btoggle'));
-      }
-    });
-    var cont=sec.querySelector('.blocks'); if(!cont)return;
-    var lastOf={};
-    blocks.forEach(function(b){lastOf[bucket((b.querySelector('.btime')||{}).textContent)]=b;});
-    function mkSlot(bk){
-      var sid=did+'-'+bk;
-      if(sec.querySelector('[data-slot="'+sid+'"]'))return null;
-      var slot=document.createElement('div'); slot.className='slot'; slot.setAttribute('data-slot',sid);
-      slot.innerHTML='<div class="slot-h">'+BL[bk]+' &mdash; up for suggestions</div>'+
-        '<div class="slot-add"><input class="s-text" placeholder="suggest a place or idea…" onkeydown="if(event.key===\'Enter\')_cob.addSug(\''+sid+'\',this)"><input class="s-place" placeholder="link or area (optional)" onkeydown="if(event.key===\'Enter\')_cob.addSug(\''+sid+'\',this)"><button onclick="_cob.addSug(\''+sid+'\',this)">Add</button></div>'+
-        '<div class="sugs"></div>';
-      return slot;
-    }
-    var amS=mkSlot('am'), pmS=mkSlot('pm'), evS=mkSlot('eve');
-    if(amS){ lastOf.am ? lastOf.am.after(amS) : (blocks[0]?blocks[0].before(amS):cont.appendChild(amS)); }
-    if(pmS){ lastOf.pm ? lastOf.pm.after(pmS) : (amS?amS.after(pmS):(blocks[0]?blocks[0].before(pmS):cont.appendChild(pmS))); }
-    if(evS){ lastOf.eve ? lastOf.eve.after(evS) : cont.appendChild(evS); }
-
-    var hdr=sec.querySelector('.day-header');
-    if(hdr && !hdr.querySelector('.pulse-card')){
-      var p=document.createElement('div'); p.className='pulse-card';
-      p.innerHTML='<div class="pulse-h">Day Pulse &mdash; group feedback '+CHD+'</div><div class="pulse-body"></div>';
-      p.querySelector('.pulse-h').onclick=function(){var bd=p.querySelector('.pulse-body');bd.style.display=bd.style.display==='none'?'':'none';};
-      hdr.appendChild(p);
-    }
-  }
-
-  function sugHTML(slot,id,x){
-    var likes=x.likes||{}; var lc=Object.keys(likes).length; var liked=likes[key(me())]!=null;
-    var place='';
-    if(x.place){ place = /^https?:\/\//i.test(x.place)
-        ? ' <a class="sug-link" href="'+esc(x.place)+'" target="_blank" rel="noopener">link &#8599;</a>'
-        : ' <span class="sug-area">&middot; '+esc(x.place)+'</span>'; }
-    return '<div class="sug"><span class="nm">'+esc(x.nm)+'</span>'+
-      '<span class="sug-body">'+esc(x.text)+place+'</span>'+
-      '<button class="likebtn'+(liked?' on':'')+'" title="like" onclick="_cob.likeSug(\''+slot+'\',\''+id+'\')">'+CHU+'<span>'+lc+'</span></button>'+
-      '<button class="delbtn" title="delete" onclick="_cob.delSug(\''+slot+'\',\''+id+'\')">&times;</button></div>';
-  }
-
-  function renderAll(){
-    document.querySelectorAll('.block[data-cid]').forEach(function(b){
-      var id=b.getAttribute('data-cid'); var fl=DATA.flags[id]||{}; var names=Object.keys(fl).map(function(k){return fl[k];});
-      var cnt=b.querySelector('.cnt'); if(!cnt)return;
-      cnt.textContent=names.length?('· '+names.length):'';
-      b.querySelector('.flagbtn').classList.toggle('on',fl[key(me())]!=null);
-      b.classList.toggle('flagged',names.length>0);
-      b.querySelector('.whoflag').innerHTML=names.length?('Wants to swap: <b>'+esc(names.join(', '))+'</b>'):'';
-    });
-    document.querySelectorAll('.slot[data-slot]').forEach(function(sl){
-      var sid=sl.getAttribute('data-slot'); var o=DATA.sugs[sid]||{};
-      var list=Object.keys(o).map(function(k){return {id:k,x:o[k]};})
-        .sort(function(a,b){var la=Object.keys(a.x.likes||{}).length,lb=Object.keys(b.x.likes||{}).length;return lb-la||a.x.ts-b.x.ts;});
-      sl.querySelector('.sugs').innerHTML=list.length?list.map(function(e){return sugHTML(sid,e.id,e.x);}).join(''):'<div class="sug-empty">No suggestions yet.</div>';
-    });
-    document.querySelectorAll('.day-section').forEach(function(sec){
-      var p=sec.querySelector('.pulse-body'); if(!p)return;
-      var flagged=[].slice.call(sec.querySelectorAll('.block[data-cid]')).filter(function(b){return Object.keys(DATA.flags[b.getAttribute('data-cid')]||{}).length;});
-      var sugN=0, top=null;
-      [].slice.call(sec.querySelectorAll('.slot[data-slot]')).forEach(function(s){
-        var o=DATA.sugs[s.getAttribute('data-slot')]||{};
-        Object.keys(o).forEach(function(k){sugN++;var lc=Object.keys(o[k].likes||{}).length;if(!top||lc>top.lc)top={lc:lc,x:o[k]};});
-      });
-      var rows='';
-      if(flagged.length)rows+='<div class="pulse-row"><span class="f">Wants to swap:</span> '+flagged.map(function(b){return '<b>'+esc(b.querySelector('.btitle').textContent)+'</b> ('+Object.keys(DATA.flags[b.getAttribute('data-cid')]).length+')';}).join(', ')+'</div>';
-      if(sugN)rows+='<div class="pulse-row"><b>'+sugN+'</b> suggestion(s)'+(top&&top.lc>0?(' &mdash; top: <b>'+esc(top.x.text)+'</b> ('+top.lc+' likes)'):'')+'</div>';
-      p.innerHTML=rows||'<div class="pulse-empty">Live tally of the group&rsquo;s <b>Not feeling it</b> votes &amp; suggestions for this day &mdash; flag a card or add an idea below and it shows up here.</div>';
-    });
-    renderChip();
-  }
-  function renderChip(){
-    var c=document.getElementById('idchip'); if(!c)return;
-    c.querySelector('.id-name').innerHTML=(me()?('You: <b>'+esc(me())+'</b>'):'Tap to add your name');
-    var mine=Object.keys(DATA.flags).some(function(id){return (DATA.flags[id]||{})[key(me())]!=null;});
-    c.classList.toggle('has-flags', !!me() && mine);
-  }
-
-  document.addEventListener('DOMContentLoaded',function(){
-    start();
-    document.querySelectorAll('.day-section').forEach(buildDay);
-    var chip=document.createElement('div'); chip.id='idchip'; chip.className='idchip';
-    chip.innerHTML='<button class="id-name"></button><button class="id-clear">Clear my flags</button>';
-    chip.querySelector('.id-name').onclick=setName;
-    chip.querySelector('.id-clear').onclick=clearMyFlags;
-    document.body.appendChild(chip);
-    renderChip(); renderAll();
-  });
-})();
-/*COLLAB-END*/
+var IMGLIST=["img/b1-0.jpg","img/b1-1.jpg","img/b1-2.jpg","img/b1-3.jpg","img/b10-0.jpg","img/b10-1.jpg","img/b10-2.jpg","img/b10-3.jpg","img/b12-0.jpg","img/b12-1.jpg","img/b12-2.jpg","img/b12-3.jpg","img/b13-0.jpg","img/b13-1.jpg","img/b13-2.jpg","img/b13-3.jpg","img/b2-0.jpg","img/b2-1.jpg","img/b2-2.jpg","img/b2-3.jpg","img/b3-0.jpg","img/b3-1.jpg","img/b3-2.jpg","img/b3-3.jpg","img/b4-0.jpg","img/b4-1.jpg","img/b4-2.jpg","img/b4-3.jpg","img/b5-0.jpg","img/b5-1.jpg","img/b5-2.jpg","img/b5-3.jpg","img/b6-0.jpg","img/b6-1.jpg","img/b6-2.jpg","img/b6-3.jpg","img/b7-0.jpg","img/b7-1.jpg","img/b7-2.jpg","img/b7-3.jpg","img/b8-0.jpg","img/b8-1.jpg","img/b8-2.jpg","img/b8-3.jpg","img/b9-0.jpg","img/b9-1.jpg","img/b9-2.jpg","img/b9-3.jpg","img/bx1-0.jpg","img/bx1-1.jpg","img/bx1-2.jpg","img/bx1-3.jpg","img/bx2-0.jpg","img/bx2-1.jpg","img/bx2-2.jpg","img/bx2-3.jpg","img/bx3-0.jpg","img/bx3-1.jpg","img/bx3-2.jpg","img/bx3-3.jpg","img/bx4-0.jpg","img/hero-busan.jpg","img/hero-seoul.jpg","img/hero-taipei.jpg","img/s1-0.jpg","img/s1-1.jpg","img/s1-2.jpg","img/s1-3.jpg","img/s11-0.jpg","img/s11-1.jpg","img/s11-2.jpg","img/s11-3.jpg","img/s12-0.jpg","img/s12-1.jpg","img/s12-2.jpg","img/s12-3.jpg","img/s13-0.jpg","img/s13-1.jpg","img/s13-2.jpg","img/s13-3.jpg","img/s14-0.jpg","img/s14-1.jpg","img/s14-2.jpg","img/s14-3.jpg","img/s15-0.jpg","img/s15-1.jpg","img/s15-2.jpg","img/s15-3.jpg","img/s16-0.jpg","img/s16-1.jpg","img/s16-2.jpg","img/s16-3.jpg","img/s17-0.jpg","img/s17-1.jpg","img/s17-2.jpg","img/s17-3.jpg","img/s18-0.jpg","img/s18-1.jpg","img/s18-2.jpg","img/s18-3.jpg","img/s19-0.jpg","img/s19-1.jpg","img/s19-2.jpg","img/s19-3.jpg","img/s2-0.jpg","img/s2-1.jpg","img/s2-2.jpg","img/s2-3.jpg","img/s20-0.jpg","img/s20-1.jpg","img/s20-2.jpg","img/s20-3.jpg","img/s21-0.jpg","img/s21-1.jpg","img/s21-2.jpg","img/s21-3.jpg","img/s22-0.jpg","img/s22-1.jpg","img/s22-2.jpg","img/s22-3.jpg","img/s3-0.jpg","img/s3-1.jpg","img/s3-2.jpg","img/s3-3.jpg","img/s4-0.jpg","img/s4-1.jpg","img/s4-2.jpg","img/s4-3.jpg","img/s5-0.jpg","img/s5-1.jpg","img/s5-2.jpg","img/s5-3.jpg","img/s6-0.jpg","img/s6-1.jpg","img/s6-2.jpg","img/s6-3.jpg","img/s7-0.jpg","img/s7-1.jpg","img/s7-2.jpg","img/s7-3.jpg","img/s8-0.jpg","img/s8-1.jpg","img/s8-2.jpg","img/s8-3.jpg","img/s9-0.jpg","img/s9-1.jpg","img/s9-2.jpg","img/s9-3.jpg","img/sx1-0.jpg","img/sx1-1.jpg","img/sx1-2.jpg","img/sx1-3.jpg","img/sx2-0.jpg","img/sx2-1.jpg","img/sx2-2.jpg","img/sx2-3.jpg","img/sx3-0.jpg","img/sx3-1.jpg","img/sx3-2.jpg","img/sx3-3.jpg","img/sx4-0.jpg","img/sx4-1.jpg","img/sx4-2.jpg","img/sx4-3.jpg","img/sx5-0.jpg","img/sx5-1.jpg","img/sx5-2.jpg","img/sx5-3.jpg","img/sx6-0.jpg","img/sx6-1.jpg","img/sx6-2.jpg","img/sx6-3.jpg","img/sx7-0.jpg","img/sx8-0.jpg","img/sx9-0.jpg","img/t1-0.jpg","img/t1-1.jpg","img/t1-2.jpg","img/t1-3.jpg","img/t10-0.jpg","img/t10-1.jpg","img/t10-2.jpg","img/t10-3.jpg","img/t11-0.jpg","img/t11-1.jpg","img/t11-2.jpg","img/t11-3.jpg","img/t12-0.jpg","img/t12-1.jpg","img/t12-2.jpg","img/t12-3.jpg","img/t13-0.jpg","img/t13-1.jpg","img/t13-2.jpg","img/t13-3.jpg","img/t14-0.jpg","img/t14-1.jpg","img/t14-2.jpg","img/t14-3.jpg","img/t15-0.jpg","img/t15-1.jpg","img/t15-2.jpg","img/t15-3.jpg","img/t16-0.jpg","img/t16-1.jpg","img/t16-2.jpg","img/t16-3.jpg","img/t17-0.jpg","img/t17-1.jpg","img/t17-2.jpg","img/t17-3.jpg","img/t18-0.jpg","img/t18-1.jpg","img/t18-2.jpg","img/t18-3.jpg","img/t19-0.jpg","img/t19-1.jpg","img/t19-2.jpg","img/t19-3.jpg","img/t2-0.jpg","img/t2-1.jpg","img/t2-2.jpg","img/t2-3.jpg","img/t20-0.jpg","img/t20-1.jpg","img/t20-2.jpg","img/t20-3.jpg","img/t3-0.jpg","img/t3-1.jpg","img/t3-2.jpg","img/t3-3.jpg","img/t4-0.jpg","img/t4-1.jpg","img/t4-2.jpg","img/t4-3.jpg","img/t5-0.jpg","img/t5-1.jpg","img/t5-2.jpg","img/t5-3.jpg","img/t6-0.jpg","img/t6-3.jpg","img/t7-0.jpg","img/t7-1.jpg","img/t7-2.jpg","img/t7-3.jpg","img/t8-0.jpg","img/t8-1.jpg","img/t8-2.jpg","img/t8-3.jpg","img/t9-0.jpg","img/t9-1.jpg","img/t9-2.jpg","img/t9-3.jpg","img/tx1-0.jpg","img/tx2-0.jpg","img/tx3-0.jpg","img/tx4-0.jpg"];
+/* swipe left/right to change day within a city */
+(function(){var sx=0,sy=0,st=0;
+addEventListener('touchstart',function(e){var t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now();},{passive:true});
+addEventListener('touchend',function(e){var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+if(Date.now()-st>600)return; if(Math.abs(dx)<70||Math.abs(dy)>60)return;
+if(e.target.closest&&e.target.closest('.day-nav,.bgallery,.lb,.route,a,button,input,textarea'))return;
+var d=DAYS[currentCity];if(!d)return;
+var view=document.getElementById(currentCity);var active=view.querySelector('.day-section.active');
+var cur=active?active.id:d.days[0][0];var i=d.days.findIndex(function(x){return x[0]===cur;});
+var ni=dx<0?i+1:i-1; if(ni<0||ni>=d.days.length)return;
+var id=d.days[ni][0];var btn=document.querySelector('#'+currentCity+'Nav button[onclick*="\''+id+'\'"]');
+if(btn)showDay(currentCity,id,btn);},{passive:true});})();
+/* PWA: offline + installable */
+if('serviceWorker' in navigator){addEventListener('load',function(){
+navigator.serviceWorker.register('sw.js').then(function(){
+setTimeout(function(){IMGLIST.forEach(function(u){fetch(u).catch(function(){});});},3000);
+}).catch(function(){});});}
 </script>
 </body>
 </html>
