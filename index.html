@@ -842,7 +842,10 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
         <span class="cal-dow">Sat</span><span class="cal-num">7</span><span class="cal-tag">101 + DTF</span>
       </button>
       <button class="day-btn" onclick="showDay('taipei','td6',this)">
-        <span class="cal-dow">Sun&ndash;Mon</span><span class="cal-num">8&ndash;9</span><span class="cal-tag">Fly Home</span>
+        <span class="cal-dow">Sun</span><span class="cal-num">8</span><span class="cal-tag">Free Day</span>
+      </button>
+      <button class="day-btn" onclick="showDay('taipei','td7',this)">
+        <span class="cal-dow">Mon</span><span class="cal-num">9</span><span class="cal-tag">Fly Home</span>
       </button>
     </div>
   </div>
@@ -1075,10 +1078,28 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
   <!-- T-Day 6 -->
   <section id="td6" class="day-section">
     <div class="day-header">
-      <div class="day-num">05</div>
-      <h2 class="day-title">Free Day + Fly Home</h2>
-      <p class="day-date">Sunday &ndash; Monday &middot; Nov 8&ndash;9</p>
-      <div class="day-vibe">Nov 8 is a free flex day &mdash; use it for anything you missed or want to revisit. Nov 9 is the final morning before the EVA Air flight home (BR 008) at 11:30am. Last soup dumplings, one final bubble tea, then airport.</div>
+      <div class="day-num">06</div>
+      <h2 class="day-title">Free Day</h2>
+      <p class="day-date">Sunday &middot; November 8</p>
+      <div class="day-vibe">Your last full day in Taipei, wide open &mdash; hit anything you missed or want a second lap at. Dihua Street for snacks and gifts, Danshui for a sunset by the water, or one more run through Syntrend, then eat your way through Ximending one final time.</div>
+    </div>
+    <div class="blocks">
+      <div class="block" onclick="toggleBlock(this)">
+        <div class="bh"><img class="bimg" loading="lazy" src="img/t20-0.jpg" alt="Free day" onerror="this.onerror=null;this.classList.add('img-fallback');this.removeAttribute('alt');this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ddd6cc%22/%3E%3C/svg%3E'">
+          <div class="bmain"><p class="btime">Nov 8 &middot; Flex day options</p><h3 class="btitle">Overflow day &mdash; revisit favorites or explore</h3><p class="bshort">Options: more Syntrend, Dihua Street (traditional fabric and snack market), Danshui Fisherman&rsquo;s Wharf for sunset, or just eat your way through Ximending one last time.</p><div class="tags"><span class="tag ts">Free time</span></div></div></div>
+        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="bdetail"><div class="dsec-label">Quick facts</div><div class="qfacts"><div class="qfact"><span class="ic"><i class="ti ti-clock"></i></span><div><div class="k">Plan for</div><div class="v">Flex day</div></div></div><div class="qfact"><span class="ic"><i class="ti ti-route"></i></span><div><div class="k">Getting there</div><div class="v">Danshui at end of MRT Red Line</div></div></div></div><div class="dsec-label">Highlights</div><ul class="dhi"><li><strong>Dihua Street</strong> for snacks, dried goods, gifts</li><li><strong>Danshui</strong> Fisherman's Wharf for sunset</li><li>Or revisit Syntrend for more Lashinbang finds</li><li>Basement food court at Syntrend is solid</li></ul><div class="dsec-label">The rundown</div><p>Good options for a flex day: <strong>Dihua Street (迪化街)</strong> for traditional snacks, dried goods, and fabric &mdash; great for last-minute gifts. <strong>Danshui (淡水)</strong> at the end of the MRT Red Line for Fisherman&rsquo;s Wharf sunset views. Or just go back to Syntrend &mdash; more floors to explore, more Lashinbang rare finds, and the basement food court is solid.</p><div class="dsec-label">Photos</div><div class="bgallery"><figure onclick="openLB(event,this)"><img loading="lazy" src="img/t20-1.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Traditional shops</figcaption></figure><figure onclick="openLB(event,this)"><img loading="lazy" src="img/t20-2.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Dried goods market</figcaption></figure><figure onclick="openLB(event,this)"><img loading="lazy" src="img/t20-3.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Last-minute gifts</figcaption></figure></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- T-Day 7 -->
+  <section id="td7" class="day-section">
+    <div class="day-header">
+      <div class="day-num">07</div>
+      <h2 class="day-title">Fly Home</h2>
+      <p class="day-date">Monday &middot; November 9</p>
+      <div class="day-vibe">Last morning. One final Taiwanese breakfast and a bubble tea near Ximen, then the Airport MRT out to Taoyuan for the flight home &mdash; <strong>EVA BR 008, 11:30am from Terminal 2</strong>, landing SFO 6:40am the same morning.</div>
     </div>
     <div class="transport-wrap transport-taipei"><div class="rcard">
       <div class="rhead">
@@ -1102,14 +1123,7 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
         <div class="rlinks"><a href="https://www.evaair.com" target="_blank">↗ EVA Air check-in</a><a href="https://maps.google.com/?q=Ximending+to+Taoyuan+Airport" target="_blank">↗ Maps route</a></div>
       </div>
     </div></div>
-<div class="blocks">
-      <div class="block" onclick="toggleBlock(this)">
-        <div class="bh"><img class="bimg" loading="lazy" src="img/t20-0.jpg" alt="Free day" onerror="this.onerror=null;this.classList.add('img-fallback');this.removeAttribute('alt');this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ddd6cc%22/%3E%3C/svg%3E'">
-          <div class="bmain"><p class="btime">Nov 8 &middot; Flex day options</p><h3 class="btitle">Overflow day &mdash; revisit favorites or explore</h3><p class="bshort">Options: more Syntrend, Dihua Street (traditional fabric and snack market), Danshui Fisherman&rsquo;s Wharf for sunset, or just eat your way through Ximending one last time.</p><div class="tags"><span class="tag ts">Free time</span></div></div></div>
-        <div class="btoggle">Details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <div class="bdetail"><div class="dsec-label">Quick facts</div><div class="qfacts"><div class="qfact"><span class="ic"><i class="ti ti-clock"></i></span><div><div class="k">Plan for</div><div class="v">Flex day</div></div></div><div class="qfact"><span class="ic"><i class="ti ti-route"></i></span><div><div class="k">Getting there</div><div class="v">Danshui at end of MRT Red Line</div></div></div></div><div class="dsec-label">Highlights</div><ul class="dhi"><li><strong>Dihua Street</strong> for snacks, dried goods, gifts</li><li><strong>Danshui</strong> Fisherman's Wharf for sunset</li><li>Or revisit Syntrend for more Lashinbang finds</li><li>Basement food court at Syntrend is solid</li></ul><div class="dsec-label">The rundown</div><p>Good options for a flex day: <strong>Dihua Street (迪化街)</strong> for traditional snacks, dried goods, and fabric &mdash; great for last-minute gifts. <strong>Danshui (淡水)</strong> at the end of the MRT Red Line for Fisherman&rsquo;s Wharf sunset views. Or just go back to Syntrend &mdash; more floors to explore, more Lashinbang rare finds, and the basement food court is solid.</p><div class="dsec-label">Photos</div><div class="bgallery"><figure onclick="openLB(event,this)"><img loading="lazy" src="img/t20-1.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Traditional shops</figcaption></figure><figure onclick="openLB(event,this)"><img loading="lazy" src="img/t20-2.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Dried goods market</figcaption></figure><figure onclick="openLB(event,this)"><img loading="lazy" src="img/t20-3.jpg" alt="" onerror="this.closest('figure').remove()"><figcaption>Last-minute gifts</figcaption></figure></div></div>
-      </div>
-    </div>
+    <div class="blocks"></div>
   </section>
 
   <div class="ga">
@@ -1132,7 +1146,7 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);fon
 var DAYS = {
   seoul:  {name:'Seoul',  days:[['sd1','Arrival & First Dinner'],['sd2','Geek + MTG Day'],['sd3','Seoul Sights + N Seoul Tower'],['sd4','Lotte World'],['sd5','Palaces + Halloween']]},
   busan:  {name:'Busan',  days:[['bd1','Arrive + Hit the Coast'],['bd2','Temple, Color + Jagalchi'],['bd3','Send-off → Taipei']]},
-  taipei: {name:'Taipei', days:[['td1','Land + Ximending'],['td2','MTG + Syntrend Geek Day'],['td3','Jiufen Day Trip'],['td4','Hot Springs + Chill'],['td5','Taipei 101 + Din Tai Fung'],['td6','Free Day + Fly Home']]}
+  taipei: {name:'Taipei', days:[['td1','Land + Ximending'],['td2','MTG + Syntrend Geek Day'],['td3','Jiufen Day Trip'],['td4','Hot Springs + Chill'],['td5','Taipei 101 + Din Tai Fung'],['td6','Free Day'],['td7','Fly Home']]}
 };
 var navMap = {seoul:'seoulNav', busan:'busanNav', taipei:'taipeiNav'};
 var currentCity = 'seoul';
